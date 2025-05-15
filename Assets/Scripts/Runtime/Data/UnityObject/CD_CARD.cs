@@ -1,3 +1,4 @@
+using Runtime.Abstracts.Classes;
 using Runtime.Data.ValueObject;
 using UnityEngine;
 
@@ -7,5 +8,6 @@ namespace Runtime.Data.UnityObject
     public class CD_CARD : ScriptableObject
     {
         public CardMoveData MoveData;
+        public CardAnimationData AnimationData;
     }
 }

@@ -5,9 +5,10 @@ using UnityEngine;
 namespace Runtime.Data.ValueObject
 {
     [Serializable]
-    public struct CardMoveData
+    public struct CardAnimationData
     {
-        public Ease EaseMode;
+        public Vector2 AnimPos;
         public float Duration;
+        public Ease EaseMode;
     }
 }
