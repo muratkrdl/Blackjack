@@ -15,4 +15,4 @@ MonoBehaviour:
   CardName: 6
   CardImage: {fileID: 21300000, guid: fa30b92b344fb9b49ba16f5ce3380227, type: 3}
   Description: 6
-  cardValue: 6
+  CardValue: 6

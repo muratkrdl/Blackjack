@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: CD_CARD
   m_EditorClassIdentifier: 
   MoveData:
-    EaseMode: 4
-    Duration: 1
+    EaseMode: 19
+    Duration: 0.5
   AnimationData:
     AnimPos: {x: 0, y: 0.2}
     Duration: 0.2

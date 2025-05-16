@@ -1,25 +1,21 @@
 using Runtime.Abstracts.Classes;
-using Runtime.Abstracts.Interfaces;
 using Runtime.Managers;
 using UnityEngine;
 
 namespace Runtime.Data.UnityObject.Cards
 {
     [CreateAssetMenu(fileName = "NormalCard", menuName = "Cards/NormalCard")]
-    public class NormalCard : Card, IUndoCardCommand
+    public class NormalCard : Card
     {
-        public int CardValue;
-        
-        public override void PlayCard(PlayerManager targetPlayer)
+        public override void DrawCard(PlayerManager playerManager)
         {
             // TODO : Increase Player Card Value
-            targetPlayer.IncreaseScore(CardValue);
+            playerManager.IncreaseScore(CardValue);
         }
-
-        public void Undo(PlayerManager targetPlayer)
+        public override void DiscardCard(PlayerManager playerManager)
         {
             // TODO : Decrease Player Card Value
-            targetPlayer.DecreaseScore(CardValue);
+            playerManager.DecreaseScore(CardValue);
         }
     }
 }

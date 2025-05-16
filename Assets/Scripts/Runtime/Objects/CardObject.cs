@@ -2,6 +2,8 @@ using Runtime.Abstracts.Classes;
 using Runtime.Abstracts.Interfaces;
 using Runtime.Controllers.Card;
 using Runtime.Data.UnityObject;
+using Runtime.Data.UnityObject.Cards;
+using Runtime.Managers;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Pool;
@@ -12,8 +14,8 @@ namespace Runtime.Objects
     {
         [SerializeField] private SpriteRenderer spriteRenderer;
         
-        private Card _cardData;
         private CD_CARD _data;
+        private Card _cardSOData;
         
         private CardMoveController _cardMoveController;
         private CardAnimationController _cardAnimationController;
@@ -39,19 +41,47 @@ namespace Runtime.Objects
             _cardAnimationController.SetData(_data.AnimationData);
         }
 
-        public void SetCardData(Card cardData)
+        public void SetCardSOData(Card cardData)
         {
-            _cardData = cardData;
+            _cardAnimationController.OnCardSpawn();
+            _cardSOData = cardData;
+            spriteRenderer.sprite = _cardSOData.CardImage;
         }
         
         public void SetPool(ObjectPool<CardObject> pool)
         {
             _pool = pool;
         }
-
-        public void MoveCard(Vector3 pos)
+        public void ReleasePool()
         {
-            _cardMoveController.GoPos(pos);
+            _pool.Release(this);
+        }
+
+        public int GetCardValue()
+        {
+            var obj = (_cardSOData as NormalCard);
+            return obj != null ? obj.CardValue : 0;
+        }
+
+        public void DrawCard(PlayerManager playerManager)
+        {
+            
+        }
+
+        public void DiscardCard(PlayerManager playerManager)
+        {
+            
+        }
+        
+        public void PlayCard(PlayerManager playerManager)
+        {
+            
+        }
+
+        public void MoveCard(Transform tra)
+        {
+            _cardMoveController.GoPos(tra.position);
+            transform.SetParent(tra);
         }
 
         public void OnPointerEnter(PointerEventData eventData)

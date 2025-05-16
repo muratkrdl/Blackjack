@@ -1,18 +1,21 @@
 using Runtime.Extensions;
 using Runtime.Keys;
+using Runtime.Managers;
 using UnityEngine.Events;
 
 namespace Runtime.Events
 {
     public class CoreGameEvents : Monosingleton<CoreGameEvents>
     {
-        public UnityAction onPlayerGetCard;
-        public UnityAction onEnemyGetCard;
-        public UnityAction onPlayerLose;
-        public UnityAction onReset;
-        public UnityAction onPlayerPass;
-
+        public UnityAction OnGameStart;
+        public UnityAction OnGameEnd;
+        public UnityAction<PlayerManager> OnDrawCrad;
+        public UnityAction<PlayerManager> OnPass;
+        public UnityAction<PlayerManager> OnLose;
+        public UnityAction OnTourStart;
+        public UnityAction OnTourEnd;
+        public UnityAction OnReset;
+        
         public UnityAction<CardMoveParams> onCardMove;
-
     }
 }

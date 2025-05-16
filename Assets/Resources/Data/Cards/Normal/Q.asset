@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CardName: Q
   CardImage: {fileID: 21300000, guid: 1760f61ad99b61c4f8a906256edb54f6, type: 3}
-  Description: 
-  cardValue: 10
+  Description: Q
+  CardValue: 10

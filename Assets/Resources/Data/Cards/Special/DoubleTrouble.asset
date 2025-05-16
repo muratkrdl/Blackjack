@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03de311ba0b045759c919ca739e48f49, type: 3}
-  m_Name: J
+  m_Script: {fileID: 11500000, guid: aaa8a49635c04267b6d1b0d53e498098, type: 3}
+  m_Name: DoubleTrouble
   m_EditorClassIdentifier: 
-  CardName: J
-  CardImage: {fileID: 21300000, guid: 5f144ff8291bd7648b24ecb0d5e29c19, type: 3}
-  Description: J
-  CardValue: 10
+  CardName: Special
+  CardImage: {fileID: 21300000, guid: b5d76147eba025b45b7ff379d7160e28, type: 3}
+  Description: afads
+  Type: 10

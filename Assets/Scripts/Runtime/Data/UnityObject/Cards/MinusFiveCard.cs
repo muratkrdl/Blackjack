@@ -13,5 +13,15 @@ namespace Runtime.Data.UnityObject.Cards
             // TODO : Add Ghost Card Player
             
         }
+
+        public override void DrawCard(PlayerManager playerManager)
+        {
+            
+        }
+
+        public override void DiscardCard(PlayerManager playerManager)
+        {
+            
+        }
     }
 }

@@ -15,6 +15,12 @@ namespace Runtime.Controllers.Card
             _data = data;
             _cardTransform = transform.GetChild(0).transform;
         }
+
+        public void OnCardSpawn()
+        {
+            _cardTransform.localScale = ConstantsUtilities.Zero2;
+            _cardTransform.DOScale(1f, _data.Duration/2).SetEase(_data.EaseMode);
+        }
         
         public void OnPointerEnter()
         {
@@ -28,7 +34,7 @@ namespace Runtime.Controllers.Card
 
         private void MovePos(Vector3 pos)
         {
-            _cardTransform.DOMove(pos, _data.Duration).SetEase(_data.EaseMode);
+            _cardTransform.DOLocalMove(pos, _data.Duration).SetEase(_data.EaseMode);
         }
         
     }
