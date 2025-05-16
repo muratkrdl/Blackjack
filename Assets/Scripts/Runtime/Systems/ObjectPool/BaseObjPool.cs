@@ -50,11 +50,6 @@ namespace Runtime.Systems.ObjectPool
             Destroy(obj.gameObject);
         }
 
-        protected virtual void Release(T obj)
-        {
-            _pool.Release(obj);
-        }
-        
         public T Get()
         {
             return _pool.Get();

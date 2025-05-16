@@ -10,9 +10,9 @@ namespace Runtime.Systems.ObjectPool
             base.OnGet(obj);
         }
 
-        protected override void Release(CardObject obj)
+        protected override void OnRelease(CardObject obj)
         {
-            base.Release(obj);
+            base.OnRelease(obj);
             obj.transform.SetParent(transform);
         }
     }

@@ -3,6 +3,7 @@ using Runtime.Abstracts.Interfaces;
 using Runtime.Controllers.Card;
 using Runtime.Data.UnityObject;
 using Runtime.Data.UnityObject.Cards;
+using Runtime.Enums;
 using Runtime.Managers;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -48,6 +49,17 @@ namespace Runtime.Objects
             spriteRenderer.sprite = _cardSOData.CardImage;
         }
         
+        public int GetCardValue()
+        {
+            var obj = (_cardSOData as NormalCard);
+            return obj != null ? obj.CardValue : 0;
+        }
+
+        public CardTypes GetCurrentCardType()
+        {
+            return _cardSOData.Type;
+        }
+        
         public void SetPool(ObjectPool<CardObject> pool)
         {
             _pool = pool;
@@ -57,25 +69,19 @@ namespace Runtime.Objects
             _pool.Release(this);
         }
 
-        public int GetCardValue()
-        {
-            var obj = (_cardSOData as NormalCard);
-            return obj != null ? obj.CardValue : 0;
-        }
-
         public void DrawCard(PlayerManager playerManager)
         {
-            
+            _cardSOData.DrawCard(playerManager);
         }
 
         public void DiscardCard(PlayerManager playerManager)
         {
-            
+            _cardSOData.DiscardCard(playerManager);
         }
         
         public void PlayCard(PlayerManager playerManager)
         {
-            
+            (_cardSOData as SpecialCard)?.PlayCard(playerManager);
         }
 
         public void MoveCard(Transform tra)

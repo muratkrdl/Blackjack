@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aaa8a49635c04267b6d1b0d53e498098, type: 3}
   m_Name: DoubleTrouble
   m_EditorClassIdentifier: 
+  Type: 6
+  CardValue: 0
   CardName: Special
   CardImage: {fileID: 21300000, guid: b5d76147eba025b45b7ff379d7160e28, type: 3}
   Description: afads
-  Type: 10

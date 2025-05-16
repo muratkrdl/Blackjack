@@ -9,13 +9,11 @@ namespace Runtime.Events
     {
         public UnityAction OnGameStart;
         public UnityAction OnGameEnd;
-        public UnityAction<PlayerManager> OnDrawCrad;
+        public UnityAction<DrawCardParams> OnDrawCard;
         public UnityAction<PlayerManager> OnPass;
         public UnityAction<PlayerManager> OnLose;
         public UnityAction OnTourStart;
         public UnityAction OnTourEnd;
         public UnityAction OnReset;
-        
-        public UnityAction<CardMoveParams> onCardMove;
     }
 }

@@ -2,7 +2,7 @@ using Runtime.Abstracts.Classes;
 using Runtime.Managers;
 using UnityEngine;
 
-namespace Runtime.Data.UnityObject.Cards
+namespace Runtime.Data.UnityObject.Cards.Special
 {
     [CreateAssetMenu(fileName = "DoubleTrouble", menuName = "Cards/MinusFiveCard")]
     public class MinusFiveCard : SpecialCard
@@ -11,7 +11,7 @@ namespace Runtime.Data.UnityObject.Cards
         {
             // TODO : Decrease Player Score 5
             // TODO : Add Ghost Card Player
-            
+
         }
 
         public override void DrawCard(PlayerManager playerManager)

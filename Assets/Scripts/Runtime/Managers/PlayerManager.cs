@@ -1,6 +1,10 @@
+using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Runtime.Abstracts.Classes;
+using Runtime.Enums;
+using Runtime.Events;
+using Runtime.Keys;
 using Runtime.Objects;
 using Runtime.Utilities;
 using TMPro;
@@ -22,30 +26,61 @@ namespace Runtime.Managers
         
         private int _currentScore;
 
-        private void Start()
+        private void OnEnable()
         {
-            GetCardAsync().Forget();
+            SubscribeEvents();
+        }
+        private void SubscribeEvents()
+        {
+            CoreGameEvents.Instance.OnDrawCard += CoreGameEvents_OnDrawCrad;
+        }
+        private void UnSubscribeEvents()
+        {
+            CoreGameEvents.Instance.OnDrawCard -= CoreGameEvents_OnDrawCrad;
+        }
+        private void OnDisable()
+        {
+            UnSubscribeEvents();
         }
 
-        private async UniTaskVoid GetCardAsync()
+        private void Start()
         {
-            await UnitaskUtilities.WaitForSecondsAsync(.5f);
-            DrawNormalCard(BoardManager.Instance.GetNormalCard());
-            await UnitaskUtilities.WaitForSecondsAsync(.25f);
-            DrawSpecialCard(BoardManager.Instance.GetSpecialCard());
-            await UnitaskUtilities.WaitForSecondsAsync(.5f);
-            DrawNormalCard(BoardManager.Instance.GetNormalCard());
-            await UnitaskUtilities.WaitForSecondsAsync(.25f);
-            DrawSpecialCard(BoardManager.Instance.GetSpecialCard());
-            await UnitaskUtilities.WaitForSecondsAsync(.5f);
-            DrawNormalCard(BoardManager.Instance.GetNormalCard());
-            await UnitaskUtilities.WaitForSecondsAsync(.25f);
-            DrawSpecialCard(BoardManager.Instance.GetSpecialCard());
+            GetCard().Forget();
         }
-        
-        private void SetScoreText(int score)
+
+        private async UniTaskVoid GetCard()
         {
-            scoreText.text = $"{score.ToString()}/21"; // TODO : GetBoardScoreForText
+            await UnitaskUtilities.WaitForSecondsAsync(.5f);
+            BoardManager.Instance.DrawNormalwCardToPlayer(this);
+            await UnitaskUtilities.WaitForSecondsAsync(.25f);
+            BoardManager.Instance.DrawSpecialCardToPlayer(this);
+            await UnitaskUtilities.WaitForSecondsAsync(.5f);
+            BoardManager.Instance.DrawNormalwCardToPlayer(this);
+            await UnitaskUtilities.WaitForSecondsAsync(.25f);
+            BoardManager.Instance.DrawSpecialCardToPlayer(this);
+            await UnitaskUtilities.WaitForSecondsAsync(.5f);
+            BoardManager.Instance.DrawNormalwCardToPlayer(this);
+            await UnitaskUtilities.WaitForSecondsAsync(.25f);
+            BoardManager.Instance.DrawSpecialCardToPlayer(this);
+            await UnitaskUtilities.WaitForSecondsAsync(.5f);
+            BoardManager.Instance.DrawNormalwCardToPlayer(this);
+            await UnitaskUtilities.WaitForSecondsAsync(.25f);
+            BoardManager.Instance.DrawSpecialCardToPlayer(this);
+        }
+
+        private void CoreGameEvents_OnDrawCrad(DrawCardParams drawCardParams)
+        {
+            if (drawCardParams.PlayerManager != this) return;
+
+            bool isNormal = drawCardParams.Obj.GetCurrentCardType() == CardTypes.Normal;
+            PlayerSetDrawedCardParams param = new PlayerSetDrawedCardParams()
+            {
+                Cards = isNormal ? _handNormalCards : _handSpecialCards,
+                Poses = isNormal ? normalCardPoses : specialCardPoses,
+                DrawedCard = drawCardParams.Obj
+            };
+            
+            DrawCard(param);
         }
 
         public void IncreaseScore(int value)
@@ -59,23 +94,22 @@ namespace Runtime.Managers
             SetScoreText(_currentScore);
         }
 
-        public void DrawNormalCard(CardObject card)
+        private void DrawCard(PlayerSetDrawedCardParams param)
         {
-            _handNormalCards.Push(card);
-            card.PlayCard(this);
-            card.MoveCard(normalCardPoses[_handNormalCards.Count-1]);
+            param.Cards.Push(param.DrawedCard);
+            param.DrawedCard.DrawCard(this);
+            param.DrawedCard.MoveCard(param.Poses[param.Cards.Count-1]);
         }
         
-        public void DrawSpecialCard(CardObject card)
-        {
-            _handSpecialCards.Push(card);
-            card.MoveCard(specialCardPoses[_handSpecialCards.Count-1]);
-        }
-
         public void PlaySpecialCard(SpecialCard card)
         {
             card.PlayCard(this);
-            _handNormalCards.Pop();
+            _handSpecialCards.Pop();
+        }
+        
+        private void SetScoreText(int score)
+        {
+            scoreText.text = $"{score.ToString()}/21"; // TODO : GetBoardScoreForText
         }
 
         public int GetCurrentScore()
