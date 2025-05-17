@@ -108,8 +108,17 @@ namespace Runtime.Managers
         }
         
         private void SetScoreText(int score)
-        {
-            scoreText.text = $"{score.ToString()}/21"; // TODO : GetBoardScoreForText
+        { 
+            // TODO : GetBoardScore For Text Instead of "21"
+            int boardScore = 21;
+            
+            var colorCode = score switch
+            {
+                _ when score > boardScore => "#FF8D8D", // Red
+                _ when score == boardScore => "#8DFF8D", // Green
+                _ => "#FFFFFF" // White
+            };
+            scoreText.text = $"<color={colorCode}>{score.ToString()}</color>/{boardScore}";
         }
 
         public int GetCurrentScore()

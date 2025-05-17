@@ -12,8 +12,8 @@ TagManager:
   - Water
   - UI
   - 
-  - 
-  - 
+  - Cards
+  - Spawners
   - 
   - 
   - 
@@ -43,6 +43,12 @@ TagManager:
     locked: 0
   - name: CardSpawner
     uniqueID: 461610533
+    locked: 0
+  - name: Cards
+    uniqueID: 1965281963
+    locked: 0
+  - name: UI
+    uniqueID: 3535714511
     locked: 0
   m_RenderingLayers:
   - Default

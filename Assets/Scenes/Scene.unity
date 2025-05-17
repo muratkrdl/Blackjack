@@ -381,6 +381,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 79721591}
+  - component: {fileID: 79721592}
   m_Layer: 0
   m_Name: ThirdCard
   m_TagString: Untagged
@@ -403,6 +404,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1572291607}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!210 &79721592
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 79721590}
+  m_Enabled: 1
+  m_SortingLayerID: 1965281963
+  m_SortingLayer: 2
+  m_SortingOrder: 80
+  m_SortAtRoot: 0
 --- !u!1 &210039929
 GameObject:
   m_ObjectHideFlags: 0
@@ -499,6 +512,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 340270412}
+  - component: {fileID: 340270413}
   m_Layer: 0
   m_Name: ThirdCard
   m_TagString: Untagged
@@ -521,6 +535,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 707393112}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!210 &340270413
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 340270411}
+  m_Enabled: 1
+  m_SortingLayerID: 1965281963
+  m_SortingLayer: 2
+  m_SortingOrder: 30
+  m_SortAtRoot: 0
 --- !u!1 &347869568
 GameObject:
   m_ObjectHideFlags: 0
@@ -771,6 +797,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 452159456}
+  - component: {fileID: 452159457}
   m_Layer: 0
   m_Name: FourthCard
   m_TagString: Untagged
@@ -793,6 +820,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 707393112}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!210 &452159457
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 452159455}
+  m_Enabled: 1
+  m_SortingLayerID: 1965281963
+  m_SortingLayer: 2
+  m_SortingOrder: 20
+  m_SortAtRoot: 0
 --- !u!1 &470357360
 GameObject:
   m_ObjectHideFlags: 0
@@ -833,6 +872,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 492650842}
+  - component: {fileID: 492650843}
   m_Layer: 0
   m_Name: FifthCard
   m_TagString: Untagged
@@ -855,6 +895,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 707393112}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!210 &492650843
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 492650841}
+  m_Enabled: 1
+  m_SortingLayerID: 1965281963
+  m_SortingLayer: 2
+  m_SortingOrder: 10
+  m_SortAtRoot: 0
 --- !u!1 &498507151
 GameObject:
   m_ObjectHideFlags: 0
@@ -902,6 +954,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 548736112}
+  - component: {fileID: 548736113}
   m_Layer: 0
   m_Name: FirstCard
   m_TagString: Untagged
@@ -924,6 +977,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1572291607}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!210 &548736113
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 548736110}
+  m_Enabled: 1
+  m_SortingLayerID: 1965281963
+  m_SortingLayer: 2
+  m_SortingOrder: 100
+  m_SortAtRoot: 0
 --- !u!1 &558393951
 GameObject:
   m_ObjectHideFlags: 0
@@ -1022,6 +1087,7 @@ GameObject:
   - component: {fileID: 587203393}
   - component: {fileID: 587203396}
   - component: {fileID: 587203395}
+  - component: {fileID: 587203397}
   m_Layer: 0
   m_Name: Number
   m_TagString: Untagged
@@ -1187,6 +1253,18 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!210 &587203397
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 587203392}
+  m_Enabled: 1
+  m_SortingLayerID: -759252785
+  m_SortingLayer: 3
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
 --- !u!1 &633816173
 GameObject:
   m_ObjectHideFlags: 0
@@ -1319,6 +1397,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 728084860}
+  - component: {fileID: 728084861}
   m_Layer: 0
   m_Name: FirstCard
   m_TagString: Untagged
@@ -1341,6 +1420,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 707393112}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!210 &728084861
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 728084859}
+  m_Enabled: 1
+  m_SortingLayerID: 1965281963
+  m_SortingLayer: 2
+  m_SortingOrder: 50
+  m_SortAtRoot: 0
 --- !u!1 &752870062
 GameObject:
   m_ObjectHideFlags: 0
@@ -1414,7 +1505,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 00000000259e831b
+  m_ApplyToSortingLayers: 00000000259e831babd22375cfb8bed2
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -1557,6 +1648,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 940374825}
+  - component: {fileID: 940374826}
   m_Layer: 0
   m_Name: SecondCard
   m_TagString: Untagged
@@ -1579,6 +1671,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1572291607}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!210 &940374826
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 940374823}
+  m_Enabled: 1
+  m_SortingLayerID: 1965281963
+  m_SortingLayer: 2
+  m_SortingOrder: 90
+  m_SortAtRoot: 0
 --- !u!1 &1080271146
 GameObject:
   m_ObjectHideFlags: 0
@@ -1675,6 +1779,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1167490451}
+  - component: {fileID: 1167490452}
   m_Layer: 0
   m_Name: FifthCard
   m_TagString: Untagged
@@ -1697,6 +1802,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1572291607}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!210 &1167490452
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1167490450}
+  m_Enabled: 1
+  m_SortingLayerID: 1965281963
+  m_SortingLayer: 2
+  m_SortingOrder: 60
+  m_SortAtRoot: 0
 --- !u!1 &1259450042
 GameObject:
   m_ObjectHideFlags: 0
@@ -2062,6 +2179,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1556440116}
+  - component: {fileID: 1556440117}
   m_Layer: 0
   m_Name: SecondCard
   m_TagString: Untagged
@@ -2084,6 +2202,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 707393112}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!210 &1556440117
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1556440115}
+  m_Enabled: 1
+  m_SortingLayerID: 1965281963
+  m_SortingLayer: 2
+  m_SortingOrder: 40
+  m_SortAtRoot: 0
 --- !u!1 &1571135704
 GameObject:
   m_ObjectHideFlags: 0
@@ -3731,6 +3861,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2113228108}
+  - component: {fileID: 2113228109}
   m_Layer: 0
   m_Name: FourthCard
   m_TagString: Untagged
@@ -3753,6 +3884,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1572291607}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!210 &2113228109
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2113228107}
+  m_Enabled: 1
+  m_SortingLayerID: 1965281963
+  m_SortingLayer: 2
+  m_SortingOrder: 70
+  m_SortAtRoot: 0
 --- !u!1 &2121467854
 GameObject:
   m_ObjectHideFlags: 0
