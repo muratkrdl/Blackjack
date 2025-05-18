@@ -4,6 +4,6 @@ namespace Runtime.Abstracts.Classes
 {
     public abstract class SpecialCard : Card
     {
-        public abstract void PlayCard(PlayerManager targetPlayer);
+        public abstract void PlayCard(HandManager targetHand);
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Runtime.Abstracts.Classes;
 using Runtime.Objects;
 using UnityEngine;
 
@@ -8,6 +9,6 @@ namespace Runtime.Keys
     {
         public Stack<CardObject> Cards;
         public Transform[] Poses;
-        public CardObject DrawedCard;
+        public CardObject DrawedVisualCard;
     }
 }

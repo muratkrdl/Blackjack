@@ -7,15 +7,15 @@ namespace Runtime.Data.UnityObject.Cards
     [CreateAssetMenu(fileName = "NormalCard", menuName = "Cards/NormalCard")]
     public class NormalCard : Card
     {
-        public override void DrawCard(PlayerManager playerManager)
+        public override void DrawCard(HandManager handManager)
         {
             // TODO : Increase Player Card Value
-            playerManager.IncreaseScore(CardValue);
+            handManager.IncreaseScore(CardValue);
         }
-        public override void DiscardCard(PlayerManager playerManager)
+        public override void DiscardCard(HandManager handManager)
         {
             // TODO : Decrease Player Card Value
-            playerManager.DecreaseScore(CardValue);
+            handManager.DecreaseScore(CardValue);
         }
     }
 }

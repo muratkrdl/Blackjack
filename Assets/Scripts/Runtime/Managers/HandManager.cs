@@ -1,18 +1,15 @@
-using System;
 using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
 using Runtime.Abstracts.Classes;
 using Runtime.Enums;
 using Runtime.Events;
 using Runtime.Keys;
 using Runtime.Objects;
-using Runtime.Utilities;
 using TMPro;
 using UnityEngine;
 
 namespace Runtime.Managers
 {
-    public class PlayerManager : MonoBehaviour
+    public class HandManager : MonoBehaviour
     {
         [SerializeField] private string playerName;
         
@@ -21,54 +18,58 @@ namespace Runtime.Managers
 
         [SerializeField] private TextMeshPro scoreText;
         
-        private readonly Stack<CardObject> _handNormalCards = new();
-        private readonly Stack<CardObject> _handSpecialCards = new();
-        
+        private Stack<CardObject> _handNormalCards = new();
+        private Stack<CardObject> _handSpecialCards = new();
+
         private int _currentScore;
+        private int _cardsInHand;
 
         private void OnEnable()
         {
             SubscribeEvents();
         }
+        
         private void SubscribeEvents()
         {
-            CoreGameEvents.Instance.OnDrawCard += OnDrawCrad;
-            
-            
-            // TemporaryEvents
-            InputEvents.Instance.OnNormalCardDraw += OnNormalCardDraw;
-            InputEvents.Instance.OnSpecialCardDraw += OnSpecialCardDraw;
+            CoreGameEvents.Instance.OnDrawCard += OnDrawCard;
+            CoreGameEvents.Instance.OnReset += OnReset;
         }
         
-        
-        private void OnDrawCrad(DrawCardParams drawCardParams)
+        private void OnDrawCard(DrawCardParams drawCardParams)
         {
-            if (drawCardParams.PlayerManager != this) return;
+            if (drawCardParams.HandManager != this) return;
 
             bool isNormal = drawCardParams.Obj.GetCurrentCardType() == CardTypes.Normal;
             PlayerSetDrawedCardParams param = new PlayerSetDrawedCardParams()
             {
                 Cards = isNormal ? _handNormalCards : _handSpecialCards,
                 Poses = isNormal ? normalCardPoses : specialCardPoses,
-                DrawedCard = drawCardParams.Obj
+                DrawedVisualCard = drawCardParams.Obj
             };
             
             DrawCard(param);
         }
 
-        private void OnNormalCardDraw()
+        private void OnReset()
         {
-            BoardManager.Instance.DrawCardToPlayer(this, DrawCardTypes.Normal);
-        }
-
-        private void OnSpecialCardDraw()
-        {
-            BoardManager.Instance.DrawCardToPlayer(this, DrawCardTypes.Special);
+            // TODO : Configure OnReset Func
+            
+            foreach (var card in _handNormalCards)
+            {
+                card.ReleasePool();
+            }
+            _handNormalCards = new Stack<CardObject>();
+            foreach (var card in _handSpecialCards)
+            {
+                card.ReleasePool();
+            }
+            _handSpecialCards = new Stack<CardObject>();
         }
 
         private void UnSubscribeEvents()
         {
-            CoreGameEvents.Instance.OnDrawCard -= OnDrawCrad;
+            CoreGameEvents.Instance.OnDrawCard -= OnDrawCard;
+            CoreGameEvents.Instance.OnReset -= OnReset;
         }
         private void OnDisable()
         {
@@ -86,11 +87,12 @@ namespace Runtime.Managers
             SetScoreText(_currentScore);
         }
 
-        private void DrawCard(PlayerSetDrawedCardParams param)  
+        private void DrawCard(PlayerSetDrawedCardParams param)
         {
-            param.Cards.Push(param.DrawedCard);
-            param.DrawedCard.DrawCard(this);
-            param.DrawedCard.MoveCard(param.Poses[param.Cards.Count-1]);
+            _cardsInHand++;
+            param.Cards.Push(param.DrawedVisualCard);
+            param.DrawedVisualCard.DrawCard(this);
+            param.DrawedVisualCard.MoveCard(param.Poses[param.Cards.Count-1]);
         }
         
         public void PlaySpecialCard(SpecialCard card)
@@ -116,6 +118,11 @@ namespace Runtime.Managers
         public int GetCurrentScore()
         {
             return _currentScore;
+        }
+
+        public int GetCardsInHand()
+        {
+            return _cardsInHand;
         }
         
     }

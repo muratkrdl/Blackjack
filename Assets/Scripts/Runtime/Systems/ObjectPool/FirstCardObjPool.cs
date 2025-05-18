@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace Runtime.Systems.ObjectPool
 {
-    public class CardObjPool : BaseObjPool<CardObject>
+    public class FirstCardObjPool : BaseObjPool<FirstCardObject>
     {
-        protected override void OnGet(CardObject obj)
+        protected override void OnGet(FirstCardObject obj)
         {
             obj.transform.SetParent(null);
             Vector3 angles = obj.transform.GetChild(0).eulerAngles;
@@ -14,7 +14,7 @@ namespace Runtime.Systems.ObjectPool
             base.OnGet(obj);
         }
 
-        protected override void OnRelease(CardObject obj)
+        protected override void OnRelease(FirstCardObject obj)
         {
             base.OnRelease(obj);
             obj.transform.SetParent(transform);

@@ -4,6 +4,6 @@ namespace Runtime.Abstracts.Interfaces
 {
     public interface IUndoCardCommand
     {
-        void Undo(PlayerManager  playerManager);
+        void Undo(HandManager  handManager);
     }
 }
