@@ -1,5 +1,6 @@
 using Runtime.Abstracts.Classes;
 using Runtime.Data.ValueObject;
+using Runtime.Data.ValueObject.CardAnim;
 using UnityEngine;
 
 namespace Runtime.Data.UnityObject

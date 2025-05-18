@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Runtime.Abstracts.Classes;
 using Runtime.Data.UnityObject.Cards;
+using Runtime.Enums;
 using Runtime.Events;
 using Runtime.Extensions;
 using Runtime.Keys;
@@ -12,8 +13,8 @@ namespace Runtime.Managers
 {
     public class BoardManager : Monosingleton<BoardManager>
     {
-        [SerializeField] private Transform normalCardSpawnTransform;
-        [SerializeField] private Transform specialCardSpawnTransform;
+        [SerializeField] private Transform normalCardSpawnPoint;
+        [SerializeField] private Transform specialCardSpawnPoint;
         
         private List<NormalCard> _initialNormalCards;
         private List<SpecialCard> _initialSpecialCards;
@@ -35,43 +36,27 @@ namespace Runtime.Managers
             _useSpecialCards = new List<SpecialCard>(_initialSpecialCards);
         }
 
-        // TODO : Single Method For Every Card (if you can Murat ^^)
-        public void DrawNormalwCardToPlayer(PlayerManager playerManager)
+        public void DrawCardToPlayer(PlayerManager playerManager, DrawCardTypes cardType) // NormalCard or SpecialCard
         {
+            CardObject returnObj = cardType == DrawCardTypes.Normal
+                ? GetCard(_useNormalCards, normalCardSpawnPoint)
+                : GetCard(_useSpecialCards, specialCardSpawnPoint);
+            
             CoreGameEvents.Instance.OnDrawCard?.Invoke(new DrawCardParams()
             {
                 PlayerManager = playerManager,
-                Obj = GetNormalCard(),
+                Obj = returnObj
             });
         }
-        public void DrawSpecialCardToPlayer(PlayerManager playerManager)
+        
+        private CardObject GetCard<T>(List<T> cardList, Transform spawnTransform) where T : Card
         {
-            CoreGameEvents.Instance.OnDrawCard?.Invoke(new DrawCardParams()
-            {
-                PlayerManager = playerManager,
-                Obj = GetSpecialCard(),
-            });
-        }
-
-        // TODO : Single Method For Every Card
-        private CardObject GetNormalCard()
-        {
-            var cardObject = CardObjPool.Instance.Get();
-            var card = _useNormalCards[Random.Range(0, _useNormalCards.Count)];
-            cardObject.transform.position = normalCardSpawnTransform.position;
-            cardObject.SetCardSOData(card);
-            _useNormalCards.Remove(card);
-            return cardObject;
-        }
-
-        private CardObject GetSpecialCard()
-        {
-            var cardObject = CardObjPool.Instance.Get();
-            var card = _useSpecialCards[Random.Range(0, _useSpecialCards.Count)];
-            cardObject.transform.position = specialCardSpawnTransform.position;
-            cardObject.SetCardSOData(card);
-            _useSpecialCards.Remove(card);
-            return cardObject;
+            CardObject cardObj = CardObjPool.Instance.Get();
+            T card = cardList[Random.Range(0, cardList.Count)];
+            cardObj.transform.position = spawnTransform.position;
+            cardObj.SetCardSOData(card);
+            cardList.Remove(card);
+            return cardObj;
         }
         
     }

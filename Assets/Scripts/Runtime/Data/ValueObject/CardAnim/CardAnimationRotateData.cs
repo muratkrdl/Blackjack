@@ -1,13 +1,11 @@
 using System;
 using DG.Tweening;
-using UnityEngine;
 
-namespace Runtime.Data.ValueObject
+namespace Runtime.Data.ValueObject.CardAnim
 {
     [Serializable]
-    public struct CardAnimationData
+    public struct CardAnimationRotateData
     {
-        public Vector2 AnimPos;
         public float Duration;
         public Ease EaseMode;
     }

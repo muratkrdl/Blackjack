@@ -16,6 +16,13 @@ MonoBehaviour:
     EaseMode: 19
     Duration: 0.5
   AnimationData:
-    AnimPos: {x: 0, y: 0.2}
-    Duration: 0.2
-    EaseMode: 35
+    AnimationMoveData:
+      AnimPos: {x: 0, y: 0.2}
+      Duration: 0.2
+      EaseMode: 6
+    AnimationScaleData:
+      Duration: 0.3
+      EaseMode: 20
+    AnimationRotateData:
+      Duration: 0.2
+      EaseMode: 17

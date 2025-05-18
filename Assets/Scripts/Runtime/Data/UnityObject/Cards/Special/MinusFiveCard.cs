@@ -1,4 +1,6 @@
 using Runtime.Abstracts.Classes;
+using Runtime.Events;
+using Runtime.Keys;
 using Runtime.Managers;
 using UnityEngine;
 
@@ -11,7 +13,11 @@ namespace Runtime.Data.UnityObject.Cards.Special
         {
             // TODO : Decrease Player Score 5
             // TODO : Add Ghost Card Player
-
+            CoreGameEvents.Instance.OnDrawCard?.Invoke(new DrawCardParams()
+            {
+                // Obj = ,
+                PlayerManager = targetPlayer
+            });
         }
 
         public override void DrawCard(PlayerManager playerManager)

@@ -32,43 +32,16 @@ namespace Runtime.Managers
         }
         private void SubscribeEvents()
         {
-            CoreGameEvents.Instance.OnDrawCard += CoreGameEvents_OnDrawCrad;
+            CoreGameEvents.Instance.OnDrawCard += OnDrawCrad;
+            
+            
+            // TemporaryEvents
+            InputEvents.Instance.OnNormalCardDraw += OnNormalCardDraw;
+            InputEvents.Instance.OnSpecialCardDraw += OnSpecialCardDraw;
         }
-        private void UnSubscribeEvents()
-        {
-            CoreGameEvents.Instance.OnDrawCard -= CoreGameEvents_OnDrawCrad;
-        }
-        private void OnDisable()
-        {
-            UnSubscribeEvents();
-        }
-
-        private void Start()
-        {
-            GetCard().Forget();
-        }
-
-        private async UniTaskVoid GetCard()
-        {
-            await UnitaskUtilities.WaitForSecondsAsync(.5f);
-            BoardManager.Instance.DrawNormalwCardToPlayer(this);
-            await UnitaskUtilities.WaitForSecondsAsync(.25f);
-            BoardManager.Instance.DrawSpecialCardToPlayer(this);
-            await UnitaskUtilities.WaitForSecondsAsync(.5f);
-            BoardManager.Instance.DrawNormalwCardToPlayer(this);
-            await UnitaskUtilities.WaitForSecondsAsync(.25f);
-            BoardManager.Instance.DrawSpecialCardToPlayer(this);
-            await UnitaskUtilities.WaitForSecondsAsync(.5f);
-            BoardManager.Instance.DrawNormalwCardToPlayer(this);
-            await UnitaskUtilities.WaitForSecondsAsync(.25f);
-            BoardManager.Instance.DrawSpecialCardToPlayer(this);
-            await UnitaskUtilities.WaitForSecondsAsync(.5f);
-            BoardManager.Instance.DrawNormalwCardToPlayer(this);
-            await UnitaskUtilities.WaitForSecondsAsync(.25f);
-            BoardManager.Instance.DrawSpecialCardToPlayer(this);
-        }
-
-        private void CoreGameEvents_OnDrawCrad(DrawCardParams drawCardParams)
+        
+        
+        private void OnDrawCrad(DrawCardParams drawCardParams)
         {
             if (drawCardParams.PlayerManager != this) return;
 
@@ -83,6 +56,25 @@ namespace Runtime.Managers
             DrawCard(param);
         }
 
+        private void OnNormalCardDraw()
+        {
+            BoardManager.Instance.DrawCardToPlayer(this, DrawCardTypes.Normal);
+        }
+
+        private void OnSpecialCardDraw()
+        {
+            BoardManager.Instance.DrawCardToPlayer(this, DrawCardTypes.Special);
+        }
+
+        private void UnSubscribeEvents()
+        {
+            CoreGameEvents.Instance.OnDrawCard -= OnDrawCrad;
+        }
+        private void OnDisable()
+        {
+            UnSubscribeEvents();
+        }
+
         public void IncreaseScore(int value)
         {
             _currentScore += value;
@@ -94,7 +86,7 @@ namespace Runtime.Managers
             SetScoreText(_currentScore);
         }
 
-        private void DrawCard(PlayerSetDrawedCardParams param)
+        private void DrawCard(PlayerSetDrawedCardParams param)  
         {
             param.Cards.Push(param.DrawedCard);
             param.DrawedCard.DrawCard(this);
