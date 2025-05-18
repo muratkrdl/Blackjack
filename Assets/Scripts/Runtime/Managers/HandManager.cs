@@ -2,14 +2,14 @@ using System.Collections.Generic;
 using Runtime.Abstracts.Classes;
 using Runtime.Enums;
 using Runtime.Events;
+using Runtime.Interfaces;
 using Runtime.Keys;
-using Runtime.Objects;
 using TMPro;
 using UnityEngine;
 
 namespace Runtime.Managers
 {
-    public class HandManager : MonoBehaviour
+    public class HandManager : MonoBehaviour, IHandManager
     {
         [SerializeField] private string playerName;
         
@@ -52,18 +52,21 @@ namespace Runtime.Managers
 
         private void OnReset()
         {
-            // TODO : Configure OnReset Func
-            
             foreach (var card in _handNormalCards)
             {
                 card.ReleasePool();
             }
             _handNormalCards = new Stack<CardObject>();
+            
             foreach (var card in _handSpecialCards)
             {
                 card.ReleasePool();
             }
             _handSpecialCards = new Stack<CardObject>();
+            
+            _currentScore = 0;
+            _cardsInHand = 0;
+            SetScoreText(_currentScore);
         }
 
         private void UnSubscribeEvents()
@@ -124,6 +127,11 @@ namespace Runtime.Managers
         {
             return _cardsInHand;
         }
-        
+
+        public void DrawCard(DrawCardTypes type)
+        {
+            // TODO : Implement Murat ^^
+            
+        }
     }
 }
