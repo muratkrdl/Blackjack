@@ -37,19 +37,12 @@ namespace Runtime.Abstracts.Classes
 
         public virtual void SetCardSoData(Card cardData)
         {
+            _cardAnimationController.SetCardData(cardData);
             _cardAnimationController.OnCardSpawn();
             CardSoData = cardData;
             spriteRenderer.sprite = CardSoData.CardImage;
         }
-
-        public abstract void ReleasePool();
-
-        public int GetCardValue() => CardSoData.CardValue;
-        public CardTypes GetCurrentCardType() => CardSoData.Type;
-        public void DrawCard(HandManager handManager) => CardSoData.DrawCard(handManager);
-        public void DiscardCard(HandManager handManager) => CardSoData.DiscardCard(handManager);
-        public void PlayCard(HandManager handManager) => (CardSoData as SpecialCard)?.PlayCard(handManager);
-
+        
         public void MoveCard(Transform tra)
         {
             _cardMoveController.GoPos(tra.position);
@@ -65,5 +58,14 @@ namespace Runtime.Abstracts.Classes
         {
             _cardAnimationController.OnPointerExit();
         }
+
+        public abstract void ReleasePool();
+
+        public int GetCardValue() => CardSoData.CardValue;
+        public CardTypes GetCurrentCardType() => CardSoData.Type;
+        public void DrawCard(HandManager handManager) => CardSoData.DrawCard(handManager);
+        public void DiscardCard(HandManager handManager) => CardSoData.DiscardCard(handManager);
+        public void PlayCard(HandManager handManager) => (CardSoData as SpecialCard)?.PlayCard(handManager);
+        
     }
 }

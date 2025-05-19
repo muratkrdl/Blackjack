@@ -21,6 +21,7 @@ MonoBehaviour:
       Duration: 0.2
       EaseMode: 6
     AnimationScaleData:
+      Target: 1
       Duration: 0.2
       EaseMode: 20
     AnimationRotateData:
