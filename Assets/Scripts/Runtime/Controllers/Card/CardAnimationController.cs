@@ -19,10 +19,10 @@ namespace Runtime.Controllers.Card
             _cardVisualTransform = transform.GetChild(0).transform;
         }
 
-        public void SetCardData(Abstracts.Classes.Card cardData)
+        public void SetCardData(Abstracts.Classes.Card cardData, CardObject cardObject)
         {
             _animationStrategy = cardData is SpecialCard
-                ? new SpecialCardAnimationStrategy(_cardVisualTransform, _data)
+                ? new SpecialCardAnimationStrategy(_cardVisualTransform, _data, cardObject)
                 : new NormalCardAnimationStrategy(_cardVisualTransform, _data);
         }
         

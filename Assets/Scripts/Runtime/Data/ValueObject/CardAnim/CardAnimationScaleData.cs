@@ -6,7 +6,10 @@ namespace Runtime.Data.ValueObject.CardAnim
     [Serializable]
     public struct CardAnimationScaleData
     {
-        public float Target;
+        public float BaseTarget;
+        public float NormalTarget;
+        public float SpecialTarget;
+        
         public float Duration;
         public Ease EaseMode;
     }

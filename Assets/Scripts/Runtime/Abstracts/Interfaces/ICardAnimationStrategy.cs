@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace Runtime.Abstracts.Interfaces
 {
     public interface ICardAnimationStrategy

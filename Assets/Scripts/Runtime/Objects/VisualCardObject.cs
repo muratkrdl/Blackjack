@@ -11,7 +11,7 @@ namespace Runtime.Objects
         public override void SetCardSoData(Card cardData)
         {
             base.SetCardSoData(cardData);
-            spriteRenderer.sprite = CardSoData.CardImage;
+            spriteRenderer.sprite = cardData is SpecialCard ? CardSoData.CardBackImage : CardSoData.CardImage;
         }
 
         public void SetPool(ObjectPool<VisualCardObject> pool)

@@ -1,55 +1,70 @@
 using DG.Tweening;
 using Runtime.Abstracts.Classes;
 using Runtime.Data.ValueObject.CardAnim;
+using Runtime.Utilities;
 using UnityEngine;
 
 namespace Runtime.Strategy
 {
     public class SpecialCardAnimationStrategy : BaseCardAnimationStrategy
     {
-        public SpecialCardAnimationStrategy(Transform cardVisualTransform, CardAnimationData data) 
+        private readonly CardObject _cardObject;
+
+        private Sequence _onPointerEnterSequence;
+        private Sequence _onPointerExitSequence;
+        
+        public SpecialCardAnimationStrategy(Transform cardVisualTransform, CardAnimationData data, CardObject cardObject)
             : base(cardVisualTransform, data)
         {
-            // BASE Class Constructor
+            _cardObject = cardObject;
         }
 
         public override void OnPointerEnter()
         {
-            base.OnPointerEnter();
-            float target = 180f;
-            RotateYAxisVisualCard(90f, () =>
-            {
-                RotateYAxisVisualCard(target, null);
-                if (Mathf.Approximately(target, 180))
-                {
-                    // TODO : SpriteRenderer Change To FaceSprite
-                    
-                }
-            });
+            KillSequence(ref _onPointerEnterSequence);
+
+            _onPointerEnterSequence = DOTween.Sequence();
+            _onPointerEnterSequence.OnPause(() => _cardObject.SetBackCardImage());
+
+            _onPointerEnterSequence
+                .Append(ScaleVisualCard(_scaleData.SpecialTarget))
+                .Join(MoveVisualCard(_moveData.AnimPos))
+                .Join(RotateVisualCard(_rotationData.SpecialTargetFirst).OnComplete(() => _cardObject.SetNormalCardImage()))
+                .Append(RotateVisualCard(_rotationData.SpecialTargetSecond));
         }
 
         public override void OnPointerExit()
         {
-            base.OnPointerExit();
-            float target = 0f;
-            RotateYAxisVisualCard(90f, () =>
+            KillSequence(ref _onPointerExitSequence);
+
+            if (_onPointerEnterSequence != null && _onPointerEnterSequence.IsPlaying())
             {
-                RotateYAxisVisualCard(target, null);
-                if (Mathf.Approximately(target, 0))
-                {
-                    // TODO : SpriteRenderer Change To BackSprite
-                    
-                }
-            });
+                _onPointerEnterSequence.Pause();
+            }
+            
+            _onPointerExitSequence = DOTween.Sequence();
+            
+            _onPointerExitSequence
+                .Append(ScaleVisualCard(_scaleData.BaseTarget))
+                .Join(MoveVisualCard(ConstantsUtilities.Zero2));
+            
+            if (!_onPointerEnterSequence.IsActive())
+            {
+                _onPointerExitSequence
+                    .Join(RotateVisualCard(_rotationData.SpecialTargetFirst).OnComplete(() => _cardObject.SetBackCardImage()))
+                    .Append(RotateVisualCard(_rotationData.BaseTarget));
+            }
+            else
+            {
+                _onPointerExitSequence.Join(RotateVisualCard(_rotationData.BaseTarget));
+            }
         }
-
-        private void RotateYAxisVisualCard(float yAxis, TweenCallback onComplete)
+        
+        private void KillSequence(ref Sequence sequence)
         {
-            Vector3 newRot = new Vector3(0, yAxis, 0);
-            _cardVisualTransform.DORotate(newRot, _rotateData.Duration / 2)
-                .SetEase(_rotateData.EaseMode)
-                .OnComplete(onComplete);
+            if (sequence == null) return;
+            sequence.Kill();
+            sequence = null;
         }
-
     }
 }

@@ -7,6 +7,6 @@ namespace Runtime.Data.ValueObject.CardAnim
     {
         public CardAnimationMoveData AnimationMoveData;
         public CardAnimationScaleData AnimationScaleData;
-        public CardAnimationRotateData AnimationRotateData;
+        public CardAnimationRotationData animationRotationData;
     }
 }

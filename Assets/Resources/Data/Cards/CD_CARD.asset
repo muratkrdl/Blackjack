@@ -18,12 +18,17 @@ MonoBehaviour:
   AnimationData:
     AnimationMoveData:
       AnimPos: {x: 0, y: 0.2}
-      Duration: 0.2
+      Duration: 0.25
       EaseMode: 6
     AnimationScaleData:
-      Target: 1
-      Duration: 0.2
+      BaseTarget: 1
+      NormalTarget: 1.1
+      SpecialTarget: 1.2
+      Duration: 0.25
       EaseMode: 20
-    AnimationRotateData:
-      Duration: 0.2
+    animationRotationData:
+      BaseTarget: {x: 0, y: 0, z: 0}
+      SpecialTargetFirst: {x: 0, y: 90, z: 7.5}
+      SpecialTargetSecond: {x: 0, y: 0, z: 15}
+      Duration: 0.25
       EaseMode: 17

@@ -37,7 +37,7 @@ namespace Runtime.Abstracts.Classes
 
         public virtual void SetCardSoData(Card cardData)
         {
-            _cardAnimationController.SetCardData(cardData);
+            _cardAnimationController.SetCardData(cardData, this);
             _cardAnimationController.OnCardSpawn();
             CardSoData = cardData;
             spriteRenderer.sprite = CardSoData.CardImage;
@@ -61,6 +61,8 @@ namespace Runtime.Abstracts.Classes
 
         public abstract void ReleasePool();
 
+        public void SetBackCardImage() => spriteRenderer.sprite = CardSoData.CardBackImage;
+        public void SetNormalCardImage() => spriteRenderer.sprite = CardSoData.CardImage;
         public int GetCardValue() => CardSoData.CardValue;
         public CardTypes GetCurrentCardType() => CardSoData.Type;
         public void DrawCard(HandManager handManager) => CardSoData.DrawCard(handManager);

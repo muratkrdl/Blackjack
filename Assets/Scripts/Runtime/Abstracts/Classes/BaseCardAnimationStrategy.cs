@@ -11,20 +11,21 @@ namespace Runtime.Abstracts.Classes
         protected readonly Transform _cardVisualTransform;
         protected readonly CardAnimationMoveData _moveData;
         protected readonly CardAnimationScaleData _scaleData;
-        protected readonly CardAnimationRotateData _rotateData;
+        protected readonly CardAnimationRotationData _rotationData;
 
         protected BaseCardAnimationStrategy(Transform cardVisualTransform, CardAnimationData data)
         {
             _cardVisualTransform = cardVisualTransform;
             _moveData = data.AnimationMoveData;
             _scaleData = data.AnimationScaleData;
-            _rotateData = data.AnimationRotateData;
+            _rotationData = data.animationRotationData;
         }
 
         public virtual void OnCardSpawn()
         {
-            ScaleVisualCard();
-            RotateVisualCard();
+            _cardVisualTransform.localScale = ConstantsUtilities.Zero2;
+            ScaleVisualCard(_scaleData.BaseTarget);
+            RotateVisualCard(_rotationData.BaseTarget);
         }
 
         public virtual void OnPointerEnter()
@@ -37,20 +38,19 @@ namespace Runtime.Abstracts.Classes
             MoveVisualCard(ConstantsUtilities.Zero2);
         }
 
-        private void ScaleVisualCard()
+        protected Tween RotateVisualCard(Vector3 target)
         {
-            _cardVisualTransform.localScale = ConstantsUtilities.Zero2;
-            _cardVisualTransform.DOScale(_scaleData.Target, _scaleData.Duration).SetEase(_scaleData.EaseMode);
+            return _cardVisualTransform.DORotate(target, _rotationData.Duration).SetEase(_rotationData.EaseMode);
+        }
+        
+        protected Tween ScaleVisualCard(float target)
+        {
+            return _cardVisualTransform.DOScale(target, _scaleData.Duration).SetEase(_scaleData.EaseMode);
         }
 
-        private void RotateVisualCard()
+        protected Tween MoveVisualCard(Vector3 pos)
         {
-            _cardVisualTransform.DORotate(ConstantsUtilities.Zero3, _rotateData.Duration).SetEase(_rotateData.EaseMode);
-        }
-
-        private void MoveVisualCard(Vector3 pos)
-        {
-            _cardVisualTransform.DOLocalMove(pos, _moveData.Duration).SetEase(_moveData.EaseMode);
+            return _cardVisualTransform.DOLocalMove(pos, _moveData.Duration).SetEase(_moveData.EaseMode);
         }
         
     }

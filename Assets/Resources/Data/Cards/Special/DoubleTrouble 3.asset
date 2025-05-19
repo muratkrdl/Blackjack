@@ -15,6 +15,6 @@ MonoBehaviour:
   Type: 6
   CardValue: 0
   CardName: Special
-  CardImage: {fileID: 21300000, guid: b5d76147eba025b45b7ff379d7160e28, type: 3}
+  CardImage: {fileID: 21300000, guid: fa02c1dce990fc0499c04721f7a8cba9, type: 3}
   CardBackImage: {fileID: 21300000, guid: b5d76147eba025b45b7ff379d7160e28, type: 3}
   Description: afads
