@@ -9,47 +9,44 @@ using UnityEngine;
 
 namespace Runtime.Managers
 {
-    public class HandManager : MonoBehaviour, IHandManager
+    public abstract class HandManager : MonoBehaviour, IHandManager
     {
-        [Header("Player Info")]
-        [SerializeField] private string playerName;
+        [SerializeField] protected string playerName;
         
-        [Header("Card Positions")]
-        [SerializeField] private Transform[] normalCardPoses;
-        [SerializeField] private Transform[] specialCardPoses;
+        [SerializeField] protected Transform[] normalCardPoses;
+        [SerializeField] protected Transform[] specialCardPoses;
 
-        [Header("UI Elements")]
-        [SerializeField] private TextMeshPro scoreText;
+        [SerializeField] protected TextMeshPro scoreText;
 
-        private List<CardObject> _handNormalCards = new();
-        private List<CardObject> _handSpecialCards = new();
+        protected List<CardObject> _handNormalCards = new();
+        protected List<CardObject> _handSpecialCards = new();
         
-        private int _currentScore;
-        private int _cardsInHand;
+        protected int _currentScore;
+        protected int _cardsInHand;
 
-        private void OnEnable()
+        protected virtual void OnEnable()
         {
             SubscribeEvents();
         }
         
-        private void SubscribeEvents()
+        protected virtual void SubscribeEvents()
         {
-            CoreGameEvents.Instance.OnDrawCard += OnDrawCard;
+            CoreGameEvents.Instance.OnDrawedCardToHand += OnDrawedCardToHand;
             CoreGameEvents.Instance.OnReset += OnReset;
         }
 
-        private void UnSubscribeEvents()
+        protected virtual void UnSubscribeEvents()
         {
-            CoreGameEvents.Instance.OnDrawCard -= OnDrawCard;
+            CoreGameEvents.Instance.OnDrawedCardToHand -= OnDrawedCardToHand;
             CoreGameEvents.Instance.OnReset -= OnReset;
         }
 
-        private void OnDisable()
+        protected virtual void OnDisable()
         {
             UnSubscribeEvents();
         }
 
-        private void OnDrawCard(DrawCardParams drawCardParams)
+        protected virtual void OnDrawedCardToHand(DrawedCardParams drawCardParams)
         {
             if (drawCardParams.HandManager != this) return;
 
@@ -64,7 +61,7 @@ namespace Runtime.Managers
             DrawCard(param);
         }
         
-        private void DrawCard(PlayerSetDrawedCardParams param)
+        protected virtual void DrawCard(PlayerSetDrawedCardParams param)
         {
             _cardsInHand++;
             param.Cards.Add(param.DrawedVisualCard);
@@ -72,12 +69,12 @@ namespace Runtime.Managers
             param.DrawedVisualCard.MoveCard(param.Poses[param.Cards.Count-1]);
         }
 
-        private void OnReset()
+        protected virtual void OnReset()
         {
             ResetHand();
         }
 
-        private void ResetHand()
+        protected virtual void ResetHand()
         {
             ResetCardList(_handNormalCards);
             ResetCardList(_handSpecialCards);
@@ -87,7 +84,7 @@ namespace Runtime.Managers
             UpdateScoreDisplay();
         }
 
-        private void ResetCardList(List<CardObject> cardList)
+        protected virtual void ResetCardList(List<CardObject> cardList)
         {
             foreach (var card in cardList)
             {
@@ -96,25 +93,25 @@ namespace Runtime.Managers
             cardList.Clear();
         }
         
-        public void PlaySpecialCard(CardObject card)
+        public virtual void PlaySpecialCard(CardObject card)
         {
             card.PlayCard(this);
             _handSpecialCards.Remove(card);
         }
 
-        public void IncreaseScore(int value)
+        public virtual void IncreaseScore(int value)
         {
             _currentScore += value;
             UpdateScoreDisplay();
         }
 
-        public void DecreaseScore(int value)
+        public virtual void DecreaseScore(int value)
         {
             _currentScore -= value;
             UpdateScoreDisplay();
         }
 
-        private void UpdateScoreDisplay()
+        protected virtual void UpdateScoreDisplay()
         { 
             int boardScore = GameSettingsManager.Instance.GetCurrentTargetScore();
             
@@ -127,8 +124,8 @@ namespace Runtime.Managers
             scoreText.text = $"<color={colorCode}>{_currentScore.ToString()}</color>/{boardScore}";
         }
 
-        public int GetCurrentScore() => _currentScore;
-        public int GetCardsInHand() => _cardsInHand;
-        public string GetPlayerName() => playerName;
+        public virtual int GetCurrentScore() => _currentScore;
+        public virtual int GetCardsInHand() => _cardsInHand;
+        public virtual string GetPlayerName() => playerName;
     }
 }

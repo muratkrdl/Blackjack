@@ -1,12 +1,11 @@
 using Runtime.Abstracts.Classes;
-using Runtime.Enums;
 using Runtime.Managers;
 
 namespace Runtime.Keys
 {
-    public struct DrawCardParams
+    public struct DrawedCardParams
     {
         public HandManager HandManager;
-        public DrawCardTypes Type;
+        public CardObject Obj;
     }
 }

@@ -16,23 +16,22 @@ namespace Runtime.Managers
 {
     public class BoardManager : Monosingleton<BoardManager>
     {
-        [Header("Hand References")]
-        [SerializeField] private HandManager playerHand;
-        [SerializeField] private HandManager enemyHand;
+        [SerializeField] private PlayerHandManager playerHand;
+        [SerializeField] private AIHandManager enemyHand;
         
-        [Header("Spawn Points")]
         [SerializeField] private Transform normalCardSpawnPoint;
         [SerializeField] private Transform specialCardSpawnPoint;
 
         private List<NormalCard> _initialNormalCards;
         private List<SpecialCard> _initialSpecialCards;
+        
         private List<NormalCard> _useNormalCards;
         private List<SpecialCard> _useSpecialCards;
 
         protected override void Awake()
         {
             base.Awake();
-            SetData();
+            SetDatas();
         }
 
         private void OnEnable()
@@ -43,12 +42,14 @@ namespace Runtime.Managers
         private void SubscribeEvents()
         {
             CoreGameEvents.Instance.OnReset += OnReset;
+            CoreGameEvents.Instance.OnDrawCardFromBoard += OnDrawCardFromBoard;
             CoreGameEvents.Instance.OnTourStart += OnTourStart;
         }
 
         private void UnSubscribeEvents()
         {
             CoreGameEvents.Instance.OnReset -= OnReset;
+            CoreGameEvents.Instance.OnDrawCardFromBoard -= OnDrawCardFromBoard;
             CoreGameEvents.Instance.OnTourStart -= OnTourStart;
         }
 
@@ -61,13 +62,8 @@ namespace Runtime.Managers
         {
             ResetCardPools();
         }
-
-        private void OnTourStart()
-        {
-            StartTour().Forget();
-        }
-
-        private void SetData()
+        
+        private void SetDatas()
         {
             _initialNormalCards = new List<NormalCard>(Resources.LoadAll<NormalCard>("Data/Cards/Normal"));
             _initialSpecialCards = new List<SpecialCard>(Resources.LoadAll<SpecialCard>("Data/Cards/Special"));
@@ -79,16 +75,21 @@ namespace Runtime.Managers
             _useNormalCards = new List<NormalCard>(_initialNormalCards);
             _useSpecialCards = new List<SpecialCard>(_initialSpecialCards);
         }
-
-        private void DrawCardToHand(HandManager handManager, DrawCardTypes cardType)
+        
+        private void OnTourStart()
         {
-            List<Card> selectedList = GetCardListByType(cardType);
-            Transform spawnPoint = GetSpawnPointByType(cardType);
-            CardObject cardObject = CreateCard(selectedList, spawnPoint, handManager.GetCardsInHand() == 0);
+            StartTour();
+        }
+        
+        private void OnDrawCardFromBoard(DrawCardParams param)
+        {
+            List<Card> selectedList = GetCardListByType(param.Type);
+            Transform spawnPoint = GetSpawnPointByType(param.Type);
+            CardObject cardObject = CreateCard(selectedList, spawnPoint, param.HandManager.GetCardsInHand() == 0);
 
-            CoreGameEvents.Instance.OnDrawCard?.Invoke(new DrawCardParams
+            CoreGameEvents.Instance.OnDrawedCardToHand?.Invoke(new DrawedCardParams
             {
-                HandManager = handManager,
+                HandManager = param.HandManager,
                 Obj = cardObject
             });
         }
@@ -113,19 +114,21 @@ namespace Runtime.Managers
             return cardObj;
         }
 
-        // TODO : Delete These Func
-        private async UniTaskVoid StartTour()
+        private void StartTour()
         {
-            await DealInitialCards();
+            DealInitialCards().Forget();
         }
+
+        // Delete These Funcs
         private async UniTask DealInitialCards()
         {
-            await DealCardPair(DrawCardTypes.Normal);
-            await DealCardPair(DrawCardTypes.Special);
-            await DealCardPair(DrawCardTypes.Normal);
-            await DealCardPair(DrawCardTypes.Special);
+            await DealCardOnTourStart(DrawCardTypes.Normal);
+            await DealCardOnTourStart(DrawCardTypes.Special);
+            await DealCardOnTourStart(DrawCardTypes.Normal);
+            await DealCardOnTourStart(DrawCardTypes.Special);
         }
-        private async UniTask DealCardPair(DrawCardTypes cardType)
+
+        private async UniTask DealCardOnTourStart(DrawCardTypes cardType)
         {
             PlayerCard(cardType);
             await UnitaskUtilities.WaitForSecondsAsync(.25f);
@@ -133,15 +136,22 @@ namespace Runtime.Managers
             await UnitaskUtilities.WaitForSecondsAsync(.25f);
         }
         
-        public void PlayerCard(DrawCardTypes type)
+        private void PlayerCard(DrawCardTypes type)
         {
-            DrawCardToHand(playerHand, type);
+            CoreGameEvents.Instance.OnDrawCardFromBoard?.Invoke(new DrawCardParams()
+            {
+                HandManager = playerHand,
+                Type = type
+            });
         }
 
-        public void EnemyCard(DrawCardTypes type)
+        private void EnemyCard(DrawCardTypes type)
         {
-            DrawCardToHand(enemyHand, type);
+            CoreGameEvents.Instance.OnDrawCardFromBoard?.Invoke(new DrawCardParams()
+            {
+                HandManager = enemyHand,
+                Type = type
+            });
         }
-        
     }
 }

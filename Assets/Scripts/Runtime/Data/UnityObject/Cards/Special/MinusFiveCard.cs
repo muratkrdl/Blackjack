@@ -1,4 +1,5 @@
 using Runtime.Abstracts.Classes;
+using Runtime.Enums;
 using Runtime.Events;
 using Runtime.Keys;
 using Runtime.Managers;
@@ -13,10 +14,10 @@ namespace Runtime.Data.UnityObject.Cards.Special
         {
             // TODO : Decrease Player Score 5
             // TODO : Add Ghost Card Player
-            CoreGameEvents.Instance.OnDrawCard?.Invoke(new DrawCardParams()
+            CoreGameEvents.Instance.OnDrawCardFromBoard?.Invoke(new DrawCardParams()
             {
-                // Obj = ,
-                HandManager = targetHand
+                HandManager = targetHand,
+                // Type = DrawCardTypes.Normal
             });
         }
 
