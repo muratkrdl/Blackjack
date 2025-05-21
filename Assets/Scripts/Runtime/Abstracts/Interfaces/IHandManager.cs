@@ -1,13 +1,11 @@
 using Runtime.Abstracts.Classes;
-using Runtime.Enums;
 
-namespace Runtime.Interfaces
+namespace Runtime.Abstracts.Interfaces
 {
     public interface IHandManager
     {
-        void DrawCard(DrawCardTypes type);
+        void PlaySpecialCard(CardObject card);
         int GetCardsInHand();
-        void PlaySpecialCard(SpecialCard card);
         int GetCurrentScore();
         void IncreaseScore(int value);
         void DecreaseScore(int value);

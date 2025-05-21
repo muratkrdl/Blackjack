@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using Runtime.Abstracts.Classes;
+using Runtime.Abstracts.Interfaces;
 using Runtime.Enums;
 using Runtime.Events;
-using Runtime.Interfaces;
 using Runtime.Keys;
 using TMPro;
 using UnityEngine;
@@ -11,16 +11,19 @@ namespace Runtime.Managers
 {
     public class HandManager : MonoBehaviour, IHandManager
     {
+        [Header("Player Info")]
         [SerializeField] private string playerName;
         
+        [Header("Card Positions")]
         [SerializeField] private Transform[] normalCardPoses;
         [SerializeField] private Transform[] specialCardPoses;
 
+        [Header("UI Elements")]
         [SerializeField] private TextMeshPro scoreText;
-        
-        private Stack<CardObject> _handNormalCards = new();
-        private Stack<CardObject> _handSpecialCards = new();
 
+        private List<CardObject> _handNormalCards = new();
+        private List<CardObject> _handSpecialCards = new();
+        
         private int _currentScore;
         private int _cardsInHand;
 
@@ -34,7 +37,18 @@ namespace Runtime.Managers
             CoreGameEvents.Instance.OnDrawCard += OnDrawCard;
             CoreGameEvents.Instance.OnReset += OnReset;
         }
-        
+
+        private void UnSubscribeEvents()
+        {
+            CoreGameEvents.Instance.OnDrawCard -= OnDrawCard;
+            CoreGameEvents.Instance.OnReset -= OnReset;
+        }
+
+        private void OnDisable()
+        {
+            UnSubscribeEvents();
+        }
+
         private void OnDrawCard(DrawCardParams drawCardParams)
         {
             if (drawCardParams.HandManager != this) return;
@@ -49,89 +63,72 @@ namespace Runtime.Managers
             
             DrawCard(param);
         }
+        
+        private void DrawCard(PlayerSetDrawedCardParams param)
+        {
+            _cardsInHand++;
+            param.Cards.Add(param.DrawedVisualCard);
+            param.DrawedVisualCard.DrawCard(this);
+            param.DrawedVisualCard.MoveCard(param.Poses[param.Cards.Count-1]);
+        }
 
         private void OnReset()
         {
-            foreach (var card in _handNormalCards)
-            {
-                card.ReleasePool();
-            }
-            _handNormalCards = new Stack<CardObject>();
-            
-            foreach (var card in _handSpecialCards)
-            {
-                card.ReleasePool();
-            }
-            _handSpecialCards = new Stack<CardObject>();
+            ResetHand();
+        }
+
+        private void ResetHand()
+        {
+            ResetCardList(_handNormalCards);
+            ResetCardList(_handSpecialCards);
             
             _currentScore = 0;
             _cardsInHand = 0;
-            SetScoreText(_currentScore);
+            UpdateScoreDisplay();
         }
 
-        private void UnSubscribeEvents()
+        private void ResetCardList(List<CardObject> cardList)
         {
-            CoreGameEvents.Instance.OnDrawCard -= OnDrawCard;
-            CoreGameEvents.Instance.OnReset -= OnReset;
+            foreach (var card in cardList)
+            {
+                card.ReleasePool();
+            }
+            cardList.Clear();
         }
-        private void OnDisable()
+        
+        public void PlaySpecialCard(CardObject card)
         {
-            UnSubscribeEvents();
+            card.PlayCard(this);
+            _handSpecialCards.Remove(card);
         }
 
         public void IncreaseScore(int value)
         {
             _currentScore += value;
-            SetScoreText(_currentScore);
+            UpdateScoreDisplay();
         }
+
         public void DecreaseScore(int value)
         {
             _currentScore -= value;
-            SetScoreText(_currentScore);
+            UpdateScoreDisplay();
         }
 
-        private void DrawCard(PlayerSetDrawedCardParams param)
-        {
-            _cardsInHand++;
-            param.Cards.Push(param.DrawedVisualCard);
-            param.DrawedVisualCard.DrawCard(this);
-            param.DrawedVisualCard.MoveCard(param.Poses[param.Cards.Count-1]);
-        }
-        
-        public void PlaySpecialCard(SpecialCard card)
-        {
-            card.PlayCard(this);
-            _handSpecialCards.Pop();
-        }
-        
-        private void SetScoreText(int score)
+        private void UpdateScoreDisplay()
         { 
-            // TODO : GetBoardScore For Text Instead of "21"
-            int boardScore = 21;
+            int boardScore = GameSettingsManager.Instance.GetCurrentTargetScore();
             
-            var colorCode = score switch
+            var colorCode = _currentScore switch
             {
-                _ when score > boardScore => "#FF8D8D", // Red
-                _ when score == boardScore => "#8DFF8D", // Green
+                _ when _currentScore > boardScore => "#FF8D8D", // Red
+                _ when _currentScore == boardScore => "#8DFF8D", // Green
                 _ => "#FFFFFF" // White
             };
-            scoreText.text = $"<color={colorCode}>{score.ToString()}</color>/{boardScore}";
+            scoreText.text = $"<color={colorCode}>{_currentScore.ToString()}</color>/{boardScore}";
         }
 
-        public int GetCurrentScore()
-        {
-            return _currentScore;
-        }
-
-        public int GetCardsInHand()
-        {
-            return _cardsInHand;
-        }
-
-        public void DrawCard(DrawCardTypes type)
-        {
-            // TODO : Implement Murat ^^
-            
-        }
+        public int GetCurrentScore() => _currentScore;
+        public int GetCardsInHand() => _cardsInHand;
+        public string GetPlayerName() => playerName;
     }
 }

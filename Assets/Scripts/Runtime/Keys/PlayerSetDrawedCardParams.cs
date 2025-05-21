@@ -7,7 +7,7 @@ namespace Runtime.Keys
 {
     public struct PlayerSetDrawedCardParams
     {
-        public Stack<CardObject> Cards;
+        public List<CardObject> Cards;
         public Transform[] Poses;
         public CardObject DrawedVisualCard;
     }
