@@ -4,6 +4,7 @@ namespace Runtime.Abstracts.Interfaces
 {
     public interface IHandManager
     {
+        CardObject GetFirstNormalCard();
         void PlaySpecialCard(CardObject card);
         int GetCardsInHand();
         int GetCurrentScore();

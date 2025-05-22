@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Runtime.Abstracts.Classes;
 using Runtime.Abstracts.Interfaces;
 using Runtime.Enums;
@@ -25,6 +26,7 @@ namespace Runtime.Managers
         protected int _cardsInHand;
 
         protected bool _canPlay;
+        protected bool _playedCard;
         protected bool _passed;
 
         protected virtual void OnEnable()
@@ -36,6 +38,7 @@ namespace Runtime.Managers
         {
             CoreGameEvents.Instance.OnDrawedCardToHand += OnDrawedCardToHand;
             CoreGameEvents.Instance.OnPass += OnPass;
+            CoreGameEvents.Instance.OnTourEnd += OnTourEnd;
             CoreGameEvents.Instance.OnReset += OnReset;
         }
 
@@ -43,6 +46,7 @@ namespace Runtime.Managers
         {
             CoreGameEvents.Instance.OnDrawedCardToHand -= OnDrawedCardToHand;
             CoreGameEvents.Instance.OnPass -= OnPass;
+            CoreGameEvents.Instance.OnTourEnd -= OnTourEnd;
             CoreGameEvents.Instance.OnReset -= OnReset;
         }
 
@@ -80,8 +84,16 @@ namespace Runtime.Managers
             }
         }
         
+        private void OnTourEnd()
+        {
+            _passed = false;
+            _canPlay = false;
+            _playedCard = false;
+        }
+        
         protected virtual void DrawCard(PlayerSetDrawedCardParams param)
         {
+            _playedCard = true;
             _cardsInHand++;
             param.Cards.Add(param.DrawedVisualCard);
             param.DrawedVisualCard.DrawCard(this);
@@ -114,6 +126,7 @@ namespace Runtime.Managers
         
         public virtual void PlaySpecialCard(CardObject card)
         {
+            _playedCard = true;
             card.PlayCard(this);
             _handSpecialCards.Remove(card);
         }
@@ -143,10 +156,12 @@ namespace Runtime.Managers
             scoreText.text = $"<color={colorCode}>{_currentScore.ToString()}</color>/{boardScore}";
         }
 
+        public virtual CardObject GetFirstNormalCard() => _handNormalCards.FirstOrDefault();
         public virtual int GetCurrentScore() => _currentScore;
         public virtual int GetCardsInHand() => _cardsInHand;
         public virtual int GetNormalCardInHand() => _handNormalCards.Count;
         public virtual int GetSpecialCardInHand() => _handSpecialCards.Count;
+        public virtual bool GetPlayedCard() => _playedCard;
         public virtual string GetPlayerName() => playerName;
     }
 }

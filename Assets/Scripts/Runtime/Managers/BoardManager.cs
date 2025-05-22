@@ -88,12 +88,8 @@ namespace Runtime.Managers
 
             List<Card> selectedList = GetCardListByType(param.Type);
             Transform spawnPoint = GetSpawnPointByType(param.Type);
-            CardObject cardObject = CreateCard(selectedList, spawnPoint, hand.GetCardsInHand() == 0);
+            CardObject cardObject = CreateCard(selectedList, spawnPoint, hand);
 
-            if (hand != playerHand)
-            {
-                (cardObject as FirstCardObject)?.HideNumber();
-            }
             CoreGameEvents.Instance.OnDrawedCardToHand?.Invoke(new DrawedCardParams
             {
                 HandManager = hand,
@@ -111,12 +107,12 @@ namespace Runtime.Managers
             return cardType == DrawCardTypes.Special ? specialCardSpawnPoint : normalCardSpawnPoint;
         }
 
-        private CardObject CreateCard<T>(List<T> cardList, Transform spawnTransform, bool isFirst) where T : Card
+        private CardObject CreateCard<T>(List<T> cardList, Transform spawnTransform, HandManager hand) where T : Card
         {
-            CardObject cardObj = isFirst ? FirstCardObjPool.Instance.Get() : VisualCardObjPool.Instance.Get();
+            CardObject cardObj = VisualCardObjPool.Instance.Get();
             T card = cardList[Random.Range(0, cardList.Count)];
             cardObj.transform.position = spawnTransform.position;
-            cardObj.SetCardSoData(card);
+            cardObj.SetCardSoData(card, hand);
             RemoveFromList(card);
             return cardObj;
         }

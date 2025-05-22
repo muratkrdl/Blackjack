@@ -1,3 +1,4 @@
+using Runtime.Abstracts.Interfaces;
 using Runtime.Controllers.Card;
 using Runtime.Data.UnityObject;
 using Runtime.Enums;
@@ -15,6 +16,8 @@ namespace Runtime.Abstracts.Classes
 
         private CardMoveController _cardMoveController;
         private CardAnimationController _cardAnimationController;
+
+        protected IHandManager Owner;
 
         protected void Awake()
         {
@@ -35,12 +38,12 @@ namespace Runtime.Abstracts.Classes
             _cardAnimationController.SetData(data.AnimationData);
         }
 
-        public virtual void SetCardSoData(Card cardData)
+        public virtual void SetCardSoData(Card cardData, IHandManager owner)
         {
+            Owner = owner;
             _cardAnimationController.SetCardData(cardData, this);
             _cardAnimationController.OnCardSpawn();
             CardSoData = cardData;
-            spriteRenderer.sprite = CardSoData.CardImage;
         }
         
         public void MoveCard(Transform tra)
