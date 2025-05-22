@@ -7,6 +7,7 @@ using Runtime.Enums;
 using Runtime.Events;
 using Runtime.Extensions;
 using Runtime.Keys;
+using Runtime.Objects;
 using Runtime.Systems.ObjectPool;
 using Runtime.Utilities;
 using UnityEngine;
@@ -63,6 +64,11 @@ namespace Runtime.Managers
             ResetCardPools();
         }
         
+        private void OnTourStart()
+        {
+            StartTour();
+        }
+        
         private void SetDatas()
         {
             _initialNormalCards = new List<NormalCard>(Resources.LoadAll<NormalCard>("Data/Cards/Normal"));
@@ -76,20 +82,21 @@ namespace Runtime.Managers
             _useSpecialCards = new List<SpecialCard>(_initialSpecialCards);
         }
         
-        private void OnTourStart()
-        {
-            StartTour();
-        }
-        
         private void OnDrawCardFromBoard(DrawCardParams param)
         {
+			HandManager hand = param.HandManager ? playerHand : enemyHand;
+
             List<Card> selectedList = GetCardListByType(param.Type);
             Transform spawnPoint = GetSpawnPointByType(param.Type);
-            CardObject cardObject = CreateCard(selectedList, spawnPoint, param.HandManager.GetCardsInHand() == 0);
+            CardObject cardObject = CreateCard(selectedList, spawnPoint, hand.GetCardsInHand() == 0);
 
+            if (hand != playerHand)
+            {
+                (cardObject as FirstCardObject)?.HideNumber();
+            }
             CoreGameEvents.Instance.OnDrawedCardToHand?.Invoke(new DrawedCardParams
             {
-                HandManager = param.HandManager,
+                HandManager = hand,
                 Obj = cardObject
             });
         }
@@ -110,8 +117,20 @@ namespace Runtime.Managers
             T card = cardList[Random.Range(0, cardList.Count)];
             cardObj.transform.position = spawnTransform.position;
             cardObj.SetCardSoData(card);
-            cardList.Remove(card);
+            RemoveFromList(card);
             return cardObj;
+        }
+        
+        private void RemoveFromList<T>(T card) where T : Card
+        {
+            if (_useNormalCards.Contains(card as NormalCard))
+            {
+                _useNormalCards.Remove(card as NormalCard);
+            }
+            else if (_useSpecialCards.Contains(card as SpecialCard))
+            {
+                _useSpecialCards.Remove(card as SpecialCard);
+            }
         }
 
         private void StartTour()
@@ -125,7 +144,6 @@ namespace Runtime.Managers
             await DealCardOnTourStart(DrawCardTypes.Normal);
             await DealCardOnTourStart(DrawCardTypes.Special);
             await DealCardOnTourStart(DrawCardTypes.Normal);
-            await DealCardOnTourStart(DrawCardTypes.Special);
         }
 
         private async UniTask DealCardOnTourStart(DrawCardTypes cardType)
@@ -149,7 +167,7 @@ namespace Runtime.Managers
         {
             CoreGameEvents.Instance.OnDrawCardFromBoard?.Invoke(new DrawCardParams()
             {
-                HandManager = enemyHand,
+                HandManager = null,
                 Type = type
             });
         }

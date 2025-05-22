@@ -1,7 +1,7 @@
-using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using Runtime.Abstracts.Classes;
-using Runtime.Abstracts.Interfaces;
 using Runtime.Enums;
 using Runtime.Events;
 using Runtime.Keys;
@@ -15,64 +15,90 @@ namespace Runtime.Managers
         [SerializeField] private float minThinkTime = 0.5f;
         [SerializeField] private float maxThinkTime = 2f;
 
-        private bool _isThinking;
-
+        private CancellationTokenSource cts = new();
+        
         protected override void SubscribeEvents()
         {
             base.SubscribeEvents();
             CoreGameEvents.Instance.OnPlayerPlayCard += OnPlayerPlaySpecialCard;
-            CoreGameEvents.Instance.OnTourEnd += OnTourEnd;
         }
 
         protected override void UnSubscribeEvents()
         {
             base.UnSubscribeEvents();
             CoreGameEvents.Instance.OnPlayerPlayCard -= OnPlayerPlaySpecialCard;
-            CoreGameEvents.Instance.OnTourEnd = OnTourEnd;
         }
 
         private void OnPlayerPlaySpecialCard(PlayCardParams param)
         {
             
         }
-        
-        private void OnTourEnd()
+
+        protected override void OnPass(HandManager hand)
         {
-            // if != this
-            
-            ThinkAndPlayCard().Forget();
+            base.OnPass(hand);
+            if (hand != this)
+            {
+                ThinkAndPlayCard().Forget();
+            }
+            else
+            {
+                cts.Cancel();
+                cts = new CancellationTokenSource();
+            }
         }
-        
+
         private async UniTaskVoid ThinkAndPlayCard()
         {
-            _isThinking = true;
-            
             float thinkTime = Random.Range(minThinkTime, maxThinkTime);
             
             await UnitaskUtilities.WaitForSecondsAsync(thinkTime);
             
             CardObject cardToPlay = DecideSpecialCardToPlay();
             
-            if (cardToPlay)
+            if(cardToPlay)
             {
                 PlaySpecialCard(cardToPlay);
             }
-            
-            _isThinking = false;
+            else
+            {
+                int target = GameSettingsManager.Instance.GetCurrentTargetScore();
+                if (Random.Range(_currentScore, target) < 18)
+                {
+                    CoreGameEvents.Instance.OnDrawCardFromBoard?.Invoke(new DrawCardParams()
+                    {
+                        HandManager = null,
+                        Type = DrawCardTypes.Normal
+                    });
+                    ThinkAndPlayCard().Forget();
+                }
+                else
+                {
+                    Debug.Log("AI Pass");
+                    CoreGameEvents.Instance.OnPass?.Invoke(this);
+                }
+            }
         }
 
         private CardObject DecideSpecialCardToPlay()
         {
             // TODO: Implement AI decision ^^
             
-            if (_handSpecialCards.Count > 0)
-            {
-                return _handSpecialCards[0];
-            }
+            // if (_handSpecialCards.Count > 0)
+            // {
+            //     return _handSpecialCards[0];
+            // }
             
             // Draw or Pass
             return null;
         }
 
+        protected override void UpdateScoreDisplay()
+        {
+            int boardScore = GameSettingsManager.Instance.GetCurrentTargetScore();
+            int showScore = _currentScore - _handNormalCards.First().GetCardValue();
+            
+            scoreText.text = $"?+{showScore.ToString()}/{boardScore}";
+        }
     }
 } 

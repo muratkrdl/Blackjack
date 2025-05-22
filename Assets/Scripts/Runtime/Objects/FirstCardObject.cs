@@ -19,6 +19,16 @@ namespace Runtime.Objects
             spriteRenderer.sprite = CardSoData.CardBackImage;
         }
 
+        public void HideNumber()
+        {
+            scoreText.gameObject.SetActive(false);
+        }
+
+        public void ShowNumber()
+        {
+            scoreText.gameObject.SetActive(true);
+        }
+
         public void SetPool(ObjectPool<FirstCardObject> pool)
         {
             _pool = pool;

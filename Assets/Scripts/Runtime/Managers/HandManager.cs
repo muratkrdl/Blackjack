@@ -24,6 +24,9 @@ namespace Runtime.Managers
         protected int _currentScore;
         protected int _cardsInHand;
 
+        protected bool _canPlay;
+        protected bool _passed;
+
         protected virtual void OnEnable()
         {
             SubscribeEvents();
@@ -32,12 +35,14 @@ namespace Runtime.Managers
         protected virtual void SubscribeEvents()
         {
             CoreGameEvents.Instance.OnDrawedCardToHand += OnDrawedCardToHand;
+            CoreGameEvents.Instance.OnPass += OnPass;
             CoreGameEvents.Instance.OnReset += OnReset;
         }
 
         protected virtual void UnSubscribeEvents()
         {
             CoreGameEvents.Instance.OnDrawedCardToHand -= OnDrawedCardToHand;
+            CoreGameEvents.Instance.OnPass -= OnPass;
             CoreGameEvents.Instance.OnReset -= OnReset;
         }
 
@@ -59,6 +64,20 @@ namespace Runtime.Managers
             };
             
             DrawCard(param);
+        }
+        
+        protected virtual void OnPass(HandManager hand)
+        {
+            if (hand == this)
+            {
+                _passed = true;
+                _canPlay = false;
+            }
+            else
+            {
+                _passed = false;
+                _canPlay = true;
+            }
         }
         
         protected virtual void DrawCard(PlayerSetDrawedCardParams param)
@@ -126,6 +145,8 @@ namespace Runtime.Managers
 
         public virtual int GetCurrentScore() => _currentScore;
         public virtual int GetCardsInHand() => _cardsInHand;
+        public virtual int GetNormalCardInHand() => _handNormalCards.Count;
+        public virtual int GetSpecialCardInHand() => _handSpecialCards.Count;
         public virtual string GetPlayerName() => playerName;
     }
 }
