@@ -1,10 +1,10 @@
-using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Runtime.Abstracts.Classes;
 using Runtime.Enums;
 using Runtime.Events;
 using Runtime.Keys;
+using Runtime.Strategy.HandScore;
 using Runtime.Utilities;
 using UnityEngine;
 
@@ -15,8 +15,14 @@ namespace Runtime.Managers
         [SerializeField] private float minThinkTime = 0.5f;
         [SerializeField] private float maxThinkTime = 2f;
 
-        private CancellationTokenSource cts = new();
-        
+        private CancellationTokenSource _cts = new();
+
+        protected override void Awake()
+        {
+            base.Awake();
+            _handScoreStrategy = GetComponent<AIHandScoreStrategy>();
+        }
+
         protected override void SubscribeEvents()
         {
             base.SubscribeEvents();
@@ -36,15 +42,14 @@ namespace Runtime.Managers
 
         protected override void OnPass(HandManager hand)
         {
-            base.OnPass(hand);
             if (hand != this)
             {
                 ThinkAndPlayCard().Forget();
             }
             else
             {
-                cts.Cancel();
-                cts = new CancellationTokenSource();
+                _cts.Cancel();
+                _cts = new CancellationTokenSource();
             }
         }
 
@@ -52,7 +57,7 @@ namespace Runtime.Managers
         {
             float thinkTime = Random.Range(minThinkTime, maxThinkTime);
             
-            await UnitaskUtilities.WaitForSecondsAsync(thinkTime);
+            await UnitaskUtilities.WaitForSecondsAsync(thinkTime, _cts);
             
             CardObject cardToPlay = DecideSpecialCardToPlay();
             
@@ -63,7 +68,7 @@ namespace Runtime.Managers
             else
             {
                 int target = GameSettingsManager.Instance.GetCurrentTargetScore();
-                if (Random.Range(_currentScore, target) < 18)
+                if (Random.Range(GetCurrentScore(), target) < 18)
                 {
                     CoreGameEvents.Instance.OnDrawCardFromBoard?.Invoke(new DrawCardParams()
                     {
@@ -74,7 +79,6 @@ namespace Runtime.Managers
                 }
                 else
                 {
-                    Debug.Log("AI Pass");
                     CoreGameEvents.Instance.OnPass?.Invoke(this);
                 }
             }
@@ -92,13 +96,6 @@ namespace Runtime.Managers
             // Draw or Pass
             return null;
         }
-
-        protected override void UpdateScoreDisplay()
-        {
-            int boardScore = GameSettingsManager.Instance.GetCurrentTargetScore();
-            int showScore = _currentScore - _handNormalCards.First().GetCardValue();
-            
-            scoreText.text = $"?+{showScore.ToString()}/{boardScore}";
-        }
+        
     }
 } 

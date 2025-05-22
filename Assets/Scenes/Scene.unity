@@ -1403,6 +1403,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1509773932}
   - component: {fileID: 1509773931}
+  - component: {fileID: 1509773933}
   m_Layer: 0
   m_Name: BoardManager
   m_TagString: Untagged
@@ -1425,8 +1426,6 @@ MonoBehaviour:
   dontDestroyOnLoad: 0
   playerHand: {fileID: 249428087}
   enemyHand: {fileID: 207238215}
-  normalCardSpawnPoint: {fileID: 1845980433}
-  specialCardSpawnPoint: {fileID: 498507152}
 --- !u!4 &1509773932
 Transform:
   m_ObjectHideFlags: 0
@@ -1442,6 +1441,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1509773933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1509773930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08595eb5a7b14b73af10ed36370844e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  normalCardSpawnPoint: {fileID: 1845980433}
+  specialCardSpawnPoint: {fileID: 498507152}
 --- !u!1 &1530297856
 GameObject:
   m_ObjectHideFlags: 0

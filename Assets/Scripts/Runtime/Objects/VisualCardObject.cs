@@ -17,8 +17,9 @@ namespace Runtime.Objects
         public override void SetCardSoData(Card cardData, IHandManager owner)
         {
             base.SetCardSoData(cardData, owner);
+            scoreText.text = cardData.CardValue.ToString();
 
-            if (owner.GetFirstNormalCard())
+            if (owner.GetFirstNormalCard()) // Has Card
             {
                 spriteRenderer.sprite = cardData is NormalCard ? CardSoData.CardImage : CardSoData.CardBackImage;
                 return;

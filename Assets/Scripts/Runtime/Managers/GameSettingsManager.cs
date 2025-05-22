@@ -1,4 +1,5 @@
 using System;
+using Runtime.Abstracts.Classes;
 using Runtime.Events;
 using Runtime.Extensions;
 using UnityEngine;
@@ -22,7 +23,6 @@ namespace Runtime.Managers
         {
             return _currentTargetScore;
         }
-
 
         private byte _playedChar;
         

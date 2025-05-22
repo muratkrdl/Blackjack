@@ -1,12 +1,19 @@
 using Runtime.Abstracts.Classes;
-using Runtime.Enums;
 using Runtime.Events;
 using Runtime.Keys;
+using Runtime.Strategy.HandScore;
+using UnityEngine;
 
 namespace Runtime.Managers
 {
     public class PlayerHandManager : HandManager
     {
+        protected override void Awake()
+        {
+            base.Awake();
+            _handScoreStrategy = GetComponent<PlayerHandScoreStrategy>();
+        }
+
         protected override void SubscribeEvents()
         {
             base.SubscribeEvents();
@@ -19,15 +26,24 @@ namespace Runtime.Managers
             CoreGameEvents.Instance.OnPlayerPlayCard -= OnPlayerPlayCard;
         }
 
+        protected override void OnPass(HandManager hand)
+        {
+            if (hand != this)
+            {
+                // Can Play
+                
+            }
+            else
+            {
+                // Can not Play
+                
+            }
+        }
+
         private void OnPlayerPlayCard(PlayCardParams param)
         {
             
         }
 
-        private void PlayNormalCard(CardObject card)
-        {
-            card.PlayCard(this);
-            _handNormalCards.Remove(card);
-        }
     }
 } 
