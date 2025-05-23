@@ -15,8 +15,8 @@ TagManager:
   - Cards
   - Spawners
   - 
-  - PlayerCard
-  - AICard
+  - Interactable
+  - UnInteractable
   - 
   - 
   - 

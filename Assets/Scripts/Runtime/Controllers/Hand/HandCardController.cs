@@ -5,7 +5,7 @@ using Runtime.Enums;
 using Runtime.Keys;
 using UnityEngine;
 
-namespace Runtime.Controllers
+namespace Runtime.Controllers.Hand
 {
     public class HandCardController : MonoBehaviour
     {

@@ -7,10 +7,11 @@ using Runtime.Events;
 using Runtime.Keys;
 using Runtime.Managers;
 using Runtime.Systems.ObjectPool;
+using Runtime.Utilities;
 using UnityEngine;
 using MyCard = Runtime.Abstracts.Classes.Card;
 
-namespace Runtime.Controllers
+namespace Runtime.Controllers.Board
 {
     public class DrawCardController : MonoBehaviour
     {
@@ -40,9 +41,13 @@ namespace Runtime.Controllers
         {
             HandManager hand = param.HandManager;
 
+            int newLayer = (hand is PlayerHandManager) ? ConstantsUtilities.InteractableLayer: ConstantsUtilities.UnInteractableLayer;
+            
             List<MyCard> selectedList = GetCardListByType(param.Type);
             Transform spawnPoint = GetSpawnPointByType(param.Type);
             CardObject cardObject = CreateCard(selectedList, spawnPoint, hand);
+            
+            cardObject.gameObject.layer = newLayer;
 
             CoreGameEvents.Instance.OnDrawedCardToHand?.Invoke(new DrawedCardParams
             {

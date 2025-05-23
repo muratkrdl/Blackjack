@@ -1,11 +1,12 @@
 using Runtime.Extensions;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace Runtime.Events
 {
     public class InputEvents : Monosingleton<InputEvents>
     {
-        public UnityAction OnNormalCardDraw;
-        public UnityAction OnSpecialCardDraw;
+        public UnityAction<Vector2> OnMouseHover;
+        public UnityAction OnMouseClick;
     }
 }
