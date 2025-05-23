@@ -1,5 +1,4 @@
 using System;
-using Runtime.Abstracts.Classes;
 using Runtime.Enums;
 
 namespace Runtime.States
@@ -7,31 +6,33 @@ namespace Runtime.States
     [Serializable]
     public class TurnStateData
     {
-        public bool PlayerDrewCard { get; private set; }
-        public bool AIDrewCard { get; private set; }
-        public bool PlayerPassed { get; private set; }
-        public bool AIPassed { get; private set; }
-        public TurnState CurrentTurnState { get; private set; }
+        private bool _playerDrewCard;
+        private bool _aiDrewCard;
+        private bool _playerPassed;
+        private bool _aiPassed;
 
-        public void SetPlayerDrewCard(bool value) => PlayerDrewCard = value;
-        public void SetAIDrewCard(bool value) => AIDrewCard = value;
-        public void SetPlayerPassed(bool value) => PlayerPassed = value;
-        public void SetAIPassed(bool value) => AIPassed = value;
+        private TurnState _currentTurnState;
+
+        public void SetPlayerDrewCard(bool value) => _playerDrewCard = value;
+        public void SetAIDrewCard(bool value) => _aiDrewCard = value;
+        public void SetPlayerPassed(bool value) => _playerPassed = value;
+        public void SetAIPassed(bool value) => _aiPassed = value;
         
-        public void SetCurrentTurnState(TurnState state) => CurrentTurnState = state;
+        public void SetCurrentTurnState(TurnState state) => _currentTurnState = state;
+        public TurnState GetCurrentTurnState() => _currentTurnState;
 
         public void Reset()
         {
-            PlayerDrewCard = false;
-            AIDrewCard = false;
-            PlayerPassed = false;
-            AIPassed = false;
-            CurrentTurnState = TurnState.PlayerTurn;
+            _playerDrewCard = false;
+            _aiDrewCard = false;
+            _playerPassed = false;
+            _aiPassed = false;
+            _currentTurnState = TurnState.PlayerTurn;
         }
 
         public bool ShouldEndRound()
         {
-            return PlayerPassed && AIPassed && !PlayerDrewCard && !AIDrewCard;
+            return _playerPassed && _aiPassed && !_playerDrewCard && !_aiDrewCard;
         }
     }
 } 

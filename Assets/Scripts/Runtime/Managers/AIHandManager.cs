@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Runtime.Managers
 {
-    public class AIHandManager : HandManager
+    public class AIHandManager : BaseHandManager
     {
         [SerializeField] private float minThinkTime = 0.5f;
         [SerializeField] private float maxThinkTime = 2f;
@@ -20,7 +20,7 @@ namespace Runtime.Managers
         protected override void Awake()
         {
             base.Awake();
-            _handScoreStrategy = GetComponent<AIHandScoreStrategy>();
+            BaseHandScoreStrategy = GetComponent<AIHandScoreStrategy>();
         }
 
         protected override void SubscribeEvents()
@@ -74,7 +74,7 @@ namespace Runtime.Managers
                 {
                     CoreGameEvents.Instance.OnDrawCardFromBoard?.Invoke(new DrawCardParams()
                     {
-                        HandManager = null,
+                        BaseHandManager = this,
                         Type = DrawCardTypes.Normal
                     });
                     ThinkAndPlayCard().Forget();

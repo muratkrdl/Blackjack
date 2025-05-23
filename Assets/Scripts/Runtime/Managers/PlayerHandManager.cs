@@ -3,16 +3,15 @@ using Runtime.Enums;
 using Runtime.Events;
 using Runtime.Keys;
 using Runtime.Strategy.HandScore;
-using UnityEngine;
 
 namespace Runtime.Managers
 {
-    public class PlayerHandManager : HandManager
+    public class PlayerHandManager : BaseHandManager
     {
         protected override void Awake()
         {
             base.Awake();
-            _handScoreStrategy = GetComponent<PlayerHandScoreStrategy>();
+            BaseHandScoreStrategy = GetComponent<PlayerHandScoreStrategy>();
         }
 
         protected override void SubscribeEvents()
@@ -50,5 +49,6 @@ namespace Runtime.Managers
                 handUI.SetInteractable(interactable);
             }
         }
+        
     }
 } 

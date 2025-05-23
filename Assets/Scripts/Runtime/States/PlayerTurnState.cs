@@ -2,7 +2,6 @@ using Runtime.Abstracts.Classes;
 using Runtime.Enums;
 using Runtime.Events;
 using Runtime.Managers;
-using UnityEngine;
 
 namespace Runtime.States
 {
@@ -16,29 +15,30 @@ namespace Runtime.States
             _stateData.SetCurrentTurnState(TurnState.PlayerTurn);
         }
 
-        public void OnPass(HandManager hand)
+        public void OnPass(BaseHandManager baseHand)
         {
-            if (hand is not PlayerHandManager) return;
+            if (baseHand is not PlayerHandManager) return;
 
             _stateData.SetPlayerPassed(true);
 
-            TurnManager.Instance.ChangeState(new AITurnState(_stateData));
+            CoreGameEvents.Instance.OnTurnChanged?.Invoke(TurnState.PlayerTurn);
         }
 
-        public void OnDrawCard(HandManager hand)
+        public void OnDrawCard(BaseHandManager baseHand)
         {
-            if (hand is PlayerHandManager)
+            if (baseHand is PlayerHandManager)
             {
                 _stateData.SetPlayerDrewCard(true);
             }
         }
 
-        private void EndRound()
-        {
-            Debug.Log("Ending Round");
-            _stateData.SetCurrentTurnState(TurnState.EndGame);
-            CoreGameEvents.Instance.OnTurnChanged?.Invoke(_stateData.CurrentTurnState);
-            CoreGameEvents.Instance.OnRoundEnd?.Invoke();
-        }
+        // private void EndRound()
+        // {
+        //     Debug.Log("Ending Round");
+        //     _stateData.SetCurrentTurnState(TurnState.EndGame);
+        //     CoreGameEvents.Instance.OnTurnChanged?.Invoke(TurnState.EndGame);
+        //     CoreGameEvents.Instance.OnRoundEnd?.Invoke();
+        // }
+        
     }
 } 

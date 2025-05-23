@@ -4,7 +4,7 @@ namespace Runtime.States
 {
     public interface ITurnState
     {
-        void OnPass(HandManager hand);
-        void OnDrawCard(HandManager hand);
+        void OnPass(BaseHandManager baseHand);
+        void OnDrawCard(BaseHandManager baseHand);
     }
 } 

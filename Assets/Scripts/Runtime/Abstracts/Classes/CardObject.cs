@@ -68,9 +68,9 @@ namespace Runtime.Abstracts.Classes
         public void SetNormalCardImage() => spriteRenderer.sprite = CardSoData.CardImage;
         public int GetCardValue() => CardSoData.CardValue;
         public CardTypes GetCurrentCardType() => CardSoData.Type;
-        public void DrawCard(HandManager handManager) => CardSoData.DrawCard(handManager);
-        public void DiscardCard(HandManager handManager) => CardSoData.DiscardCard(handManager);
-        public void PlayCard(HandManager handManager) => (CardSoData as SpecialCard)?.PlayCard(handManager);
+        public void DrawCard(BaseHandManager baseHandManager) => CardSoData.DrawCard(baseHandManager);
+        public void DiscardCard(BaseHandManager baseHandManager) => CardSoData.DiscardCard(baseHandManager);
+        public void PlayCard(BaseHandManager baseHandManager) => (CardSoData as SpecialCard)?.PlayCard(baseHandManager);
         
     }
 }

@@ -1,5 +1,4 @@
 using Cysharp.Threading.Tasks;
-using Runtime.Controllers;
 using Runtime.Controllers.Board;
 using Runtime.Enums;
 using Runtime.Events;
@@ -13,7 +12,7 @@ namespace Runtime.Managers
     public class BoardManager : Monosingleton<BoardManager>
     {
         [SerializeField] private PlayerHandManager playerHand;
-        [SerializeField] private AIHandManager enemyHand;
+        [SerializeField] private AIHandManager aiHand;
         
         private DrawCardController _drawCardController;
         
@@ -62,12 +61,12 @@ namespace Runtime.Managers
         
         private void OnDrawCardFromBoard(DrawCardParams param)
         {
-            param.HandManager = param.HandManager ? playerHand : enemyHand;
             _drawCardController.OnDrawCardFromBoard(param);
         }
         
         private void OnGameStart()
         {
+            CoreGameEvents.Instance.OnRoundStart?.Invoke();
             GameStart();
         }
 
@@ -98,7 +97,7 @@ namespace Runtime.Managers
         {
             CoreGameEvents.Instance.OnDrawCardFromBoard?.Invoke(new DrawCardParams()
             {
-                HandManager = playerHand,
+                BaseHandManager = playerHand,
                 Type = type
             });
         }
@@ -107,7 +106,7 @@ namespace Runtime.Managers
         {
             CoreGameEvents.Instance.OnDrawCardFromBoard?.Invoke(new DrawCardParams()
             {
-                HandManager = null,
+                BaseHandManager = aiHand,
                 Type = type
             });
         }

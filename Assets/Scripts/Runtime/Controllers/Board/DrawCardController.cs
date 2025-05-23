@@ -39,19 +39,19 @@ namespace Runtime.Controllers.Board
         
         public void OnDrawCardFromBoard(DrawCardParams param)
         {
-            HandManager hand = param.HandManager;
+            BaseHandManager baseHand = param.BaseHandManager;
 
-            int newLayer = (hand is PlayerHandManager) ? ConstantsUtilities.InteractableLayer: ConstantsUtilities.UnInteractableLayer;
+            int newLayer = (baseHand is PlayerHandManager) ? ConstantsUtilities.InteractableLayer: ConstantsUtilities.UnInteractableLayer;
             
             List<MyCard> selectedList = GetCardListByType(param.Type);
             Transform spawnPoint = GetSpawnPointByType(param.Type);
-            CardObject cardObject = CreateCard(selectedList, spawnPoint, hand);
+            CardObject cardObject = CreateCard(selectedList, spawnPoint, baseHand);
             
             cardObject.gameObject.layer = newLayer;
 
-            CoreGameEvents.Instance.OnDrawedCardToHand?.Invoke(new DrawedCardParams
+            CoreGameEvents.Instance.OnDrewCardToHand?.Invoke(new DrawedCardParams
             {
-                HandManager = hand,
+                BaseHandManager = baseHand,
                 Obj = cardObject
             });
         }
@@ -66,12 +66,12 @@ namespace Runtime.Controllers.Board
             return cardType == DrawCardTypes.Special ? specialCardSpawnPoint : normalCardSpawnPoint;
         }
 
-        private CardObject CreateCard<T>(List<T> cardList, Transform spawnTransform, HandManager hand) where T : MyCard
+        private CardObject CreateCard<T>(List<T> cardList, Transform spawnTransform, BaseHandManager baseHand) where T : MyCard
         {
             CardObject cardObj = VisualCardObjPool.Instance.Get();
             T card = cardList[Random.Range(0, cardList.Count)];
             cardObj.transform.position = spawnTransform.position;
-            cardObj.SetCardSoData(card, hand);
+            cardObj.SetCardSoData(card, baseHand);
             RemoveFromList(card);
             return cardObj;
         }

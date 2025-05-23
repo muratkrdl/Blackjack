@@ -3,7 +3,7 @@ using Runtime.Managers;
 
 namespace Runtime.Strategy.HandScore
 {
-    public class AIHandScoreStrategy : HandScoreStrategy
+    public class AIHandScoreStrategy : BaseHandScoreStrategy
     {
         protected override void UpdateScoreDisplay()
         {

@@ -10,23 +10,23 @@ namespace Runtime.Data.UnityObject.Cards.Special
     [CreateAssetMenu(fileName = "DoubleTrouble", menuName = "Cards/MinusFiveCard")]
     public class MinusFiveCard : SpecialCard
     {
-        public override void PlayCard(HandManager targetHand)
+        public override void PlayCard(BaseHandManager targetBaseHand)
         {
             // TODO : Decrease Player Score 5
             // TODO : Add Ghost Card Player
             CoreGameEvents.Instance.OnDrawCardFromBoard?.Invoke(new DrawCardParams()
             {
-                HandManager = targetHand,
+                BaseHandManager = targetBaseHand,
                 // Type = DrawCardTypes.Normal
             });
         }
 
-        public override void DrawCard(HandManager handManager)
+        public override void DrawCard(BaseHandManager baseHandManager)
         {
             
         }
 
-        public override void DiscardCard(HandManager handManager)
+        public override void DiscardCard(BaseHandManager baseHandManager)
         {
             
         }

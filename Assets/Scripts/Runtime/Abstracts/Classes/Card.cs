@@ -13,7 +13,7 @@ namespace Runtime.Abstracts.Classes
         public Sprite CardBackImage;
         public string Description;
 
-        public abstract void DrawCard(HandManager handManager);
-        public abstract void DiscardCard(HandManager handManager);
+        public abstract void DrawCard(BaseHandManager baseHandManager);
+        public abstract void DiscardCard(BaseHandManager baseHandManager);
     }
 }

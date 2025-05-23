@@ -12,12 +12,12 @@ namespace Runtime.Managers
         [SerializeField] private Button drawCardButton;
         [SerializeField] private Button passButton;
 
-        private HandManager _handOwner;
+        private BaseHandManager _baseHandOwner;
         private bool _isInteractable = true;
         
         private void Awake()
         {
-            _handOwner = GetComponent<HandManager>();
+            _baseHandOwner = GetComponent<BaseHandManager>();
             
             drawCardButton.onClick.AddListener(OnClick_DrawCardButton);
             passButton.onClick.AddListener(OnClick_PassCardButton);
@@ -33,11 +33,11 @@ namespace Runtime.Managers
         private void OnClick_DrawCardButton()
         {
             if (!_isInteractable) return;
-            if (_handOwner.GetNormalCardInHand() >= GameSettingsManager.Instance.GetMaxNormalCard()) return;
+            if (_baseHandOwner.GetNormalCardInHand() >= GameSettingsManager.Instance.GetMaxNormalCard()) return;
             
             CoreGameEvents.Instance.OnDrawCardFromBoard?.Invoke(new DrawCardParams()
             {
-                HandManager = _handOwner,
+                BaseHandManager = _baseHandOwner,
                 Type = DrawCardTypes.Normal
             });
         }
@@ -45,7 +45,7 @@ namespace Runtime.Managers
         private void OnClick_PassCardButton()
         {
             if (!_isInteractable) return;
-            CoreGameEvents.Instance.OnPass?.Invoke(_handOwner);
+            CoreGameEvents.Instance.OnPass?.Invoke(_baseHandOwner);
         }
     }
 }

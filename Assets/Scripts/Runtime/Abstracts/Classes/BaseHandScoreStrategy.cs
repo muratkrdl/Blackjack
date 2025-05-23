@@ -3,17 +3,17 @@ using UnityEngine;
 
 namespace Runtime.Abstracts.Classes
 {
-    public abstract class HandScoreStrategy : MonoBehaviour
+    public abstract class BaseHandScoreStrategy : MonoBehaviour
     {
         [SerializeField] protected TextMeshPro scoreText;
         
         protected int _currentScore;
 
-        protected HandManager _owner;
+        protected BaseHandManager _owner;
 
         private void Awake()
         {
-            _owner = GetComponent<HandManager>();
+            _owner = GetComponent<BaseHandManager>();
         }
 
         public void Reset()

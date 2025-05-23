@@ -5,7 +5,7 @@ namespace Runtime.Keys
 {
     public struct PlayCardParams
     {
-        public HandManager Hand;
+        public BaseHandManager BaseHand;
         public CardObject Card;
     }
 }

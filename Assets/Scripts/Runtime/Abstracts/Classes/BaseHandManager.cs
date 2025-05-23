@@ -6,12 +6,12 @@ using UnityEngine;
 
 namespace Runtime.Abstracts.Classes
 {
-    public abstract class HandManager : MonoBehaviour, IHandManager
+    public abstract class BaseHandManager : MonoBehaviour, IHandManager
     {
         [SerializeField] protected string playerName;
         
         protected HandCardController _handCardController;
-        protected HandScoreStrategy _handScoreStrategy;
+        protected BaseHandScoreStrategy BaseHandScoreStrategy;
         
         protected virtual void Awake()
         {
@@ -25,14 +25,14 @@ namespace Runtime.Abstracts.Classes
         
         protected virtual void SubscribeEvents()
         {
-            CoreGameEvents.Instance.OnDrawedCardToHand += OnDrewCardToHand;
+            CoreGameEvents.Instance.OnDrewCardToHand += OnDrewCardToHand;
             CoreGameEvents.Instance.OnTourEnd += OnTourEnd;
             CoreGameEvents.Instance.OnReset += OnReset;
         }
 
         protected virtual void UnSubscribeEvents()
         {
-            CoreGameEvents.Instance.OnDrawedCardToHand -= OnDrewCardToHand;
+            CoreGameEvents.Instance.OnDrewCardToHand -= OnDrewCardToHand;
             CoreGameEvents.Instance.OnTourEnd -= OnTourEnd;
             CoreGameEvents.Instance.OnReset -= OnReset;
         }
@@ -42,7 +42,7 @@ namespace Runtime.Abstracts.Classes
             UnSubscribeEvents();
         }
 
-        protected virtual void OnDrewCardToHand(DrawedCardParams drawCardParams) => _handCardController.OnDrawedCardToHand(drawCardParams);
+        protected virtual void OnDrewCardToHand(DrawedCardParams drawCardParams) => _handCardController.OnDrewCardToHand(drawCardParams);
 
         private void OnTourEnd()
         {
@@ -52,7 +52,7 @@ namespace Runtime.Abstracts.Classes
         protected virtual void OnReset()
         {
             _handCardController.Reset();
-            _handScoreStrategy.Reset();
+            BaseHandScoreStrategy.Reset();
         }
 
         public virtual void PlaySpecialCard(CardObject card)
@@ -60,11 +60,11 @@ namespace Runtime.Abstracts.Classes
             _handCardController.PlaySpecialCard(card);
         }
 
-        public virtual void IncreaseScore(int value) => _handScoreStrategy.IncreaseScore(value);
-        public virtual void DecreaseScore(int value) => _handScoreStrategy.DecreaseScore(value);
+        public virtual void IncreaseScore(int value) => BaseHandScoreStrategy.IncreaseScore(value);
+        public virtual void DecreaseScore(int value) => BaseHandScoreStrategy.DecreaseScore(value);
 
         public virtual CardObject GetFirstNormalCard() => _handCardController.GetFirstNormalCard();
-        public virtual int GetCurrentScore() => _handScoreStrategy.GetCurrentScore();
+        public virtual int GetCurrentScore() => BaseHandScoreStrategy.GetCurrentScore();
         public virtual int GetCardsInHand() => _handCardController.GetCardsInHand();
         public virtual int GetNormalCardInHand() => _handCardController.GetNormalCardInHand();
         public virtual int GetSpecialCardInHand() => _handCardController.GetSpecialCardInHand();

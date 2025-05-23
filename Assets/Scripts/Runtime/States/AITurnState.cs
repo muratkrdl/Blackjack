@@ -16,9 +16,9 @@ namespace Runtime.States
             _stateData.SetCurrentTurnState(TurnState.AITurn);
         }
 
-        public void OnPass(HandManager hand)
+        public void OnPass(BaseHandManager baseHand)
         {
-            if (hand is not AIHandManager) return;
+            if (baseHand is PlayerHandManager) return;
 
             _stateData.SetAIPassed(true);
 
@@ -29,13 +29,13 @@ namespace Runtime.States
             else
             {
                 CoreGameEvents.Instance.OnRoundEnd?.Invoke();
-                TurnManager.Instance.ChangeState(new PlayerTurnState(_stateData));
+                CoreGameEvents.Instance.OnTurnChanged?.Invoke(TurnState.AITurn);
             }
         }
 
-        public void OnDrawCard(HandManager hand)
+        public void OnDrawCard(BaseHandManager baseHand)
         {
-            if (hand is AIHandManager)
+            if (baseHand is AIHandManager)
             {
                 _stateData.SetAIDrewCard(true);
             }
@@ -43,9 +43,9 @@ namespace Runtime.States
 
         private void EndRound()
         {
-            Debug.Log("Ending Round");
+            Debug.Log("End Round");
             _stateData.SetCurrentTurnState(TurnState.EndGame);
-            CoreGameEvents.Instance.OnTurnChanged?.Invoke(_stateData.CurrentTurnState);
+            CoreGameEvents.Instance.OnTurnChanged?.Invoke(TurnState.EndGame);
             CoreGameEvents.Instance.OnRoundEnd?.Invoke();
         }
     }

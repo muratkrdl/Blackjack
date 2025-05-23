@@ -17,17 +17,17 @@ namespace Runtime.Controllers.Hand
         
         private int _cardsInHand;
 
-        private HandManager _owner;
+        private BaseHandManager _owner;
 
         private void Awake()
         {
-            _owner = GetComponent<HandManager>();
+            _owner = GetComponent<BaseHandManager>();
         }
 
-        public void OnDrawedCardToHand(DrawedCardParams drawCardParams)
+        public void OnDrewCardToHand(DrawedCardParams drawCardParams)
         {
-            if (drawCardParams.HandManager != _owner) return;
-
+            if (drawCardParams.BaseHandManager != _owner) return;
+            
             bool isNormal = drawCardParams.Obj.GetCurrentCardType() == CardTypes.Normal;
             PlayerSetDrawedCardParams param = new PlayerSetDrawedCardParams()
             {
