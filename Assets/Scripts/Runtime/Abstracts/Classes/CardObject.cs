@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 
 namespace Runtime.Abstracts.Classes
 {
-    public abstract class CardObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+    public abstract class CardObject : MonoBehaviour //, IPointerEnterHandler, IPointerExitHandler
     {
         [SerializeField] protected SpriteRenderer spriteRenderer;
 
@@ -52,12 +52,12 @@ namespace Runtime.Abstracts.Classes
             transform.SetParent(tra);
         }
 
-        public void OnPointerEnter(PointerEventData eventData)
+        public void OnPointerEnter()
         {
             _cardAnimationController.OnPointerEnter();
         }
 
-        public void OnPointerExit(PointerEventData eventData)
+        public void OnPointerExit()
         {
             _cardAnimationController.OnPointerExit();
         }

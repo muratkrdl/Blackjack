@@ -740,8 +740,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1f855173eed6b14489d975bf24ed27d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DrawCardButton: {fileID: 1062210158119958539}
-  PassButton: {fileID: 9161567307487268078}
+  drawCardButton: {fileID: 1062210158119958539}
+  passButton: {fileID: 9161567307487268078}
 --- !u!4 &7541966654363548051 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9159624392347957971, guid: 8f54adf3e101e7547bc763861f6a016c, type: 3}

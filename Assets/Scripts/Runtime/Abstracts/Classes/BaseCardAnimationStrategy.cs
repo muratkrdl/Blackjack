@@ -13,20 +13,20 @@ namespace Runtime.Abstracts.Classes
         protected readonly CardAnimationScaleData _scaleData;
         protected readonly CardAnimationRotationData _rotationData;
 
-        protected BaseCardAnimationStrategy(Transform cardVisualTransform, CardAnimationData data)
+        protected readonly Animator _animator;
+        
+        protected BaseCardAnimationStrategy(Transform cardVisualTransform, CardAnimationData data, Animator animator)
         {
             _cardVisualTransform = cardVisualTransform;
+            _animator = animator;
             _moveData = data.AnimationMoveData;
             _scaleData = data.AnimationScaleData;
             _rotationData = data.animationRotationData;
         }
 
-        public virtual void OnCardSpawn()
-        {
-            _cardVisualTransform.localScale = ConstantsUtilities.Zero2;
-            ScaleVisualCard(_scaleData.BaseTarget);
-            RotateVisualCard(_rotationData.BaseTarget);
-        }
+        public abstract void OnCardSpawn();
+
+        public abstract void OnCardDespawn();
 
         public virtual void OnPointerEnter()
         {

@@ -10,11 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 711777694777438735}
   - component: {fileID: 3665717673564743211}
-  - component: {fileID: 8047462740734018121}
+  - component: {fileID: -1537807569474922271}
+  - component: {fileID: 1254116511809038533}
   - component: {fileID: 9171276379368692091}
   - component: {fileID: 1451601055220724095}
   - component: {fileID: 5501066003384764114}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: VisualCardObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -83,7 +84,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.65, y: 0.95}
   m_EdgeRadius: 0
---- !u!50 &8047462740734018121
+--- !u!50 &-1537807569474922271
 Rigidbody2D:
   serializedVersion: 5
   m_ObjectHideFlags: 0
@@ -97,8 +98,8 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDamping: 0
-  m_AngularDamping: 0
-  m_GravityScale: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -108,8 +109,30 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 1
-  m_Constraints: 7
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!95 &1254116511809038533
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4263548614668474911}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b6a812d67c492b44680019b295db9a93, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &9171276379368692091
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -9,8 +9,8 @@ namespace Runtime.Managers
 {
     public class HandUIManager : MonoBehaviour
     {
-        [SerializeField] private Button DrawCardButton;
-        [SerializeField] private Button PassButton;
+        [SerializeField] private Button drawCardButton;
+        [SerializeField] private Button passButton;
 
         private HandManager _handOwner;
         
@@ -18,13 +18,13 @@ namespace Runtime.Managers
         {
             _handOwner = GetComponent<HandManager>();
             
-            DrawCardButton.onClick.AddListener(OnClick_DrawCardButton);
-            PassButton.onClick.AddListener(OnClick_PassCardButton);
+            drawCardButton.onClick.AddListener(OnClick_DrawCardButton);
+            passButton.onClick.AddListener(OnClick_PassCardButton);
         }
 
         private void OnClick_DrawCardButton()
         {
-            if (_handOwner.GetNormalCardInHand() >= 5) return; // TODO : Get From GameSetting
+            if (_handOwner.GetNormalCardInHand() >= GameSettingsManager.Instance.GetMaxNormalCard()) return; // TODO : Get From GameSetting
             
             CoreGameEvents.Instance.OnDrawCardFromBoard?.Invoke(new DrawCardParams()
             {

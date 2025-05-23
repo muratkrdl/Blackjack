@@ -19,10 +19,9 @@ namespace Runtime.Managers
             _currentTargetScore = _data.gameSettings.InitialTargetScore;
         }
 
-        public int GetCurrentTargetScore()
-        {
-            return _currentTargetScore;
-        }
+        public int GetCurrentTargetScore() => _currentTargetScore;
+        public int GetMaxNormalCard() => _data.gameSettings.MaxNormalCard;
+        
 
         private byte _playedChar;
         

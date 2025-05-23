@@ -4,7 +4,7 @@ using Runtime.Data.ValueObject.CardAnim;
 using Runtime.Utilities;
 using UnityEngine;
 
-namespace Runtime.Strategy
+namespace Runtime.Strategy.CardAnimation
 {
     public class SpecialCardAnimationStrategy : BaseCardAnimationStrategy
     {
@@ -13,10 +13,26 @@ namespace Runtime.Strategy
         private Sequence _onPointerEnterSequence;
         private Sequence _onPointerExitSequence;
         
-        public SpecialCardAnimationStrategy(Transform cardVisualTransform, CardAnimationData data, CardObject cardObject)
-            : base(cardVisualTransform, data)
+        public SpecialCardAnimationStrategy(Transform cardVisualTransform, CardAnimationData data, Animator animator, CardObject cardObject)
+            : base(cardVisualTransform, data, animator)
         {
             _cardObject = cardObject;
+        }
+
+        public override void OnCardSpawn()
+        {
+            _cardVisualTransform.localScale = ConstantsUtilities.Zero2;
+            
+            Sequence sequence = DOTween.Sequence();
+            
+            sequence
+                .Append(ScaleVisualCard(_scaleData.BaseTarget))
+                .Join(RotateVisualCard(_rotationData.BaseTarget));
+        }
+
+        public override void OnCardDespawn()
+        {
+            _animator.SetTrigger(ConstantsUtilities.SpecialDestroy);
         }
 
         public override void OnPointerEnter()

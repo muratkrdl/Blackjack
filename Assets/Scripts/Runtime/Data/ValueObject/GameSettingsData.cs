@@ -6,6 +6,7 @@ namespace Runtime.Data.ValueObject
     public struct GameSettingsData
     {
         public int InitialTargetScore;
+        public int MaxNormalCard;
         
         //public int startingMoney = 1000
         //public int minBet = 10;
