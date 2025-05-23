@@ -27,22 +27,19 @@ namespace Runtime.Managers
         {
             base.SubscribeEvents();
             CoreGameEvents.Instance.OnPlayerPlayCard += OnPlayerPlaySpecialCard;
+            CoreGameEvents.Instance.OnTurnChanged += OnTurnChanged;
         }
 
         protected override void UnSubscribeEvents()
         {
             base.UnSubscribeEvents();
             CoreGameEvents.Instance.OnPlayerPlayCard -= OnPlayerPlaySpecialCard;
+            CoreGameEvents.Instance.OnTurnChanged -= OnTurnChanged;
         }
-
-        private void OnPlayerPlaySpecialCard(PlayCardParams param)
+        
+        private void OnTurnChanged(TurnState newState)
         {
-            
-        }
-
-        protected override void OnPass(HandManager hand)
-        {
-            if (hand != this)
+            if (newState == TurnState.AITurn)
             {
                 ThinkAndPlayCard().Forget();
             }
@@ -51,6 +48,11 @@ namespace Runtime.Managers
                 _cts.Cancel();
                 _cts = new CancellationTokenSource();
             }
+        }
+
+        private void OnPlayerPlaySpecialCard(PlayCardParams param)
+        {
+            
         }
 
         private async UniTaskVoid ThinkAndPlayCard()

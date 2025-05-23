@@ -1,5 +1,4 @@
 using Runtime.Abstracts.Interfaces;
-using Runtime.Controllers;
 using Runtime.Controllers.Hand;
 using Runtime.Events;
 using Runtime.Keys;
@@ -26,16 +25,14 @@ namespace Runtime.Abstracts.Classes
         
         protected virtual void SubscribeEvents()
         {
-            CoreGameEvents.Instance.OnDrawedCardToHand += OnDrawedCardToHand;
-            CoreGameEvents.Instance.OnPass += OnPass;
+            CoreGameEvents.Instance.OnDrawedCardToHand += OnDrewCardToHand;
             CoreGameEvents.Instance.OnTourEnd += OnTourEnd;
             CoreGameEvents.Instance.OnReset += OnReset;
         }
 
         protected virtual void UnSubscribeEvents()
         {
-            CoreGameEvents.Instance.OnDrawedCardToHand -= OnDrawedCardToHand;
-            CoreGameEvents.Instance.OnPass -= OnPass;
+            CoreGameEvents.Instance.OnDrawedCardToHand -= OnDrewCardToHand;
             CoreGameEvents.Instance.OnTourEnd -= OnTourEnd;
             CoreGameEvents.Instance.OnReset -= OnReset;
         }
@@ -45,10 +42,8 @@ namespace Runtime.Abstracts.Classes
             UnSubscribeEvents();
         }
 
-        protected virtual void OnDrawedCardToHand(DrawedCardParams drawCardParams) => _handCardController.OnDrawedCardToHand(drawCardParams);
+        protected virtual void OnDrewCardToHand(DrawedCardParams drawCardParams) => _handCardController.OnDrawedCardToHand(drawCardParams);
 
-        protected abstract void OnPass(HandManager hand);
-        
         private void OnTourEnd()
         {
             

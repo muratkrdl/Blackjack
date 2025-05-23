@@ -1,6 +1,3 @@
-using System;
-using Runtime.Abstracts.Classes;
-using Runtime.Events;
 using Runtime.Extensions;
 using UnityEngine;
 
@@ -21,25 +18,6 @@ namespace Runtime.Managers
 
         public int GetCurrentTargetScore() => _currentTargetScore;
         public int GetMaxNormalCard() => _data.gameSettings.MaxNormalCard;
-        
 
-        private byte _playedChar;
-        
-        private void OnEnable()
-        {
-            CoreGameEvents.Instance.OnPass += OnPass;
-        }
-
-        private void OnPass(HandManager arg0)
-        {
-            _playedChar++;
-            if (_playedChar == 2)
-            {
-                // Tour End
-                // Check Both PlayedCard = false
-                // if false EndGame decide winner
-                
-            }
-        }
     }
 }

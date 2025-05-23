@@ -1,7 +1,7 @@
 using Runtime.Abstracts.Classes;
+using Runtime.Enums;
 using Runtime.Extensions;
 using Runtime.Keys;
-using Runtime.Managers;
 using UnityEngine.Events;
 
 namespace Runtime.Events
@@ -18,5 +18,10 @@ namespace Runtime.Events
         public UnityAction OnTourStart;
         public UnityAction OnTourEnd;
         public UnityAction OnReset;
+        
+        
+        public UnityAction OnRoundStart;
+        public UnityAction OnRoundEnd;
+        public UnityAction<TurnState> OnTurnChanged;
     }
 }

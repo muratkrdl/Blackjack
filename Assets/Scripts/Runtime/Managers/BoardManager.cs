@@ -40,14 +40,14 @@ namespace Runtime.Managers
         {
             CoreGameEvents.Instance.OnReset += OnReset;
             CoreGameEvents.Instance.OnDrawCardFromBoard += OnDrawCardFromBoard;
-            CoreGameEvents.Instance.OnTourStart += OnTourStart;
+            CoreGameEvents.Instance.OnGameStart += OnGameStart;
         }
 
         private void UnSubscribeEvents()
         {
             CoreGameEvents.Instance.OnReset -= OnReset;
             CoreGameEvents.Instance.OnDrawCardFromBoard -= OnDrawCardFromBoard;
-            CoreGameEvents.Instance.OnTourStart -= OnTourStart;
+            CoreGameEvents.Instance.OnGameStart -= OnGameStart;
         }
 
         private void OnDisable()
@@ -66,12 +66,12 @@ namespace Runtime.Managers
             _drawCardController.OnDrawCardFromBoard(param);
         }
         
-        private void OnTourStart()
+        private void OnGameStart()
         {
-            StartTour();
+            GameStart();
         }
 
-        private void StartTour()
+        private void GameStart()
         {
             DealInitialCards().Forget();
         }
@@ -82,6 +82,8 @@ namespace Runtime.Managers
             await DealCardOnTourStart(DrawCardTypes.Normal);
             await DealCardOnTourStart(DrawCardTypes.Special);
             await DealCardOnTourStart(DrawCardTypes.Normal);
+            
+            CoreGameEvents.Instance.OnRoundStart?.Invoke();
         }
 
         private async UniTask DealCardOnTourStart(DrawCardTypes cardType)
