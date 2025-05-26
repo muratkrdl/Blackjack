@@ -8,5 +8,6 @@ namespace Runtime.Abstracts.Interfaces
         void OnCardDespawn();
         void OnPointerEnter();
         void OnPointerExit();
+        void OnDiscard();
     }
 }

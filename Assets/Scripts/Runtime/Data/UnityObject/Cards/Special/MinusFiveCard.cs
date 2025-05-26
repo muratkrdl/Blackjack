@@ -1,8 +1,6 @@
 using Runtime.Abstracts.Classes;
-using Runtime.Enums;
 using Runtime.Events;
 using Runtime.Keys;
-using Runtime.Managers;
 using UnityEngine;
 
 namespace Runtime.Data.UnityObject.Cards.Special

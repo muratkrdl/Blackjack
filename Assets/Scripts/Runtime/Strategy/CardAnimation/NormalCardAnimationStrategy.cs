@@ -8,8 +8,8 @@ namespace Runtime.Strategy.CardAnimation
 {
     public class NormalCardAnimationStrategy : BaseCardAnimationStrategy
     {
-        public NormalCardAnimationStrategy(Transform cardVisualTransform, CardAnimationData data, Animator animator)
-            : base(cardVisualTransform, data, animator)
+        public NormalCardAnimationStrategy(Transform cardVisualTransform, CardAnimationData data, Animator animator, CardObject cardObject)
+            : base(cardVisualTransform, data, animator, cardObject)
         {
         }
 
@@ -46,5 +46,27 @@ namespace Runtime.Strategy.CardAnimation
                 .Append(ScaleVisualCard(_scaleData.BaseTarget))
                 .Join(MoveVisualCard(ConstantsUtilities.Zero2));
         }
+
+        public override void OnDiscard()
+        {
+            if (_cardObject.IsBackCardImage())
+            {
+                Sequence sequence = DOTween.Sequence();
+            
+                sequence
+                    .Join(RotateVisualCard(_rotationData.SpecialTargetFirst).OnComplete(() => _cardObject.SetBackCardImage()))
+                    .Append(RotateVisualCard(_rotationData.SpecialTargetSecond).OnComplete(SetTriggerAnimation));
+            }
+            else
+            {
+                SetTriggerAnimation();
+            }
+        }
+
+        private void SetTriggerAnimation()
+        {
+            _animator.SetTrigger(ConstantsUtilities.NormalDestroy);
+        }
+
     }
 }

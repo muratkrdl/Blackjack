@@ -21,6 +21,19 @@ namespace Runtime.Managers
 
             _playerInputActions.Player.MousePos.performed += OnMousePos;
             _playerInputActions.Player.MouseLClick.started += OnClick;
+
+            InputEvents.Instance.OnEnableInput += OnEnableInput;
+            InputEvents.Instance.OnDisableInput += OnDisableInput;
+        }
+        
+        private void OnEnableInput()
+        {
+            _playerInputActions.Player.Enable();
+        }
+        
+        private void OnDisableInput()
+        {
+            _playerInputActions.Player.Disable();
         }
 
         private void OnMousePos(InputAction.CallbackContext obj)

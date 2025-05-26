@@ -8,5 +8,7 @@ namespace Runtime.Events
     {
         public UnityAction<Vector2> OnMouseHover;
         public UnityAction OnMouseClick;
+        public UnityAction OnDisableInput;
+        public UnityAction OnEnableInput;
     }
 }

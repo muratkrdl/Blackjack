@@ -1,8 +1,6 @@
-using System;
 using Runtime.Abstracts.Classes;
 using Runtime.Data.ValueObject.CardAnim;
 using Runtime.Abstracts.Interfaces;
-using Runtime.Strategy;
 using Runtime.Strategy.CardAnimation;
 using UnityEngine;
 
@@ -26,7 +24,7 @@ namespace Runtime.Controllers.Card
             Animator animator = GetComponent<Animator>();
             _animationStrategy = cardData is SpecialCard
                 ? new SpecialCardAnimationStrategy(_cardVisualTransform, _data, animator, cardObject)
-                : new NormalCardAnimationStrategy(_cardVisualTransform, _data, animator);
+                : new NormalCardAnimationStrategy(_cardVisualTransform, _data, animator, cardObject);
         }
         
         public void OnCardSpawn()
@@ -48,5 +46,11 @@ namespace Runtime.Controllers.Card
         {
             _animationStrategy.OnPointerExit();
         }
+
+        public void OnDiscard()
+        {
+            _animationStrategy.OnDiscard();
+        }
+        
     }
 }

@@ -2,9 +2,8 @@ using Runtime.Abstracts.Interfaces;
 using Runtime.Controllers.Card;
 using Runtime.Data.UnityObject;
 using Runtime.Enums;
-using Runtime.Managers;
+using Runtime.Events;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace Runtime.Abstracts.Classes
 {
@@ -63,13 +62,19 @@ namespace Runtime.Abstracts.Classes
         }
 
         public abstract void ReleasePool();
+        
+        public virtual void DiscardCard(BaseHandManager baseHandManager)
+        {
+            CardSoData.DiscardCard(baseHandManager);
+            _cardAnimationController.OnDiscard();
+        }
 
         public void SetBackCardImage() => spriteRenderer.sprite = CardSoData.CardBackImage;
         public void SetNormalCardImage() => spriteRenderer.sprite = CardSoData.CardImage;
+        public bool IsBackCardImage() => spriteRenderer.sprite = CardSoData.CardImage;
         public int GetCardValue() => CardSoData.CardValue;
         public CardTypes GetCurrentCardType() => CardSoData.Type;
         public void DrawCard(BaseHandManager baseHandManager) => CardSoData.DrawCard(baseHandManager);
-        public void DiscardCard(BaseHandManager baseHandManager) => CardSoData.DiscardCard(baseHandManager);
         public void PlayCard(BaseHandManager baseHandManager) => (CardSoData as SpecialCard)?.PlayCard(baseHandManager);
         
     }

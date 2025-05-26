@@ -8,15 +8,12 @@ namespace Runtime.Strategy.CardAnimation
 {
     public class SpecialCardAnimationStrategy : BaseCardAnimationStrategy
     {
-        private readonly CardObject _cardObject;
-
         private Sequence _onPointerEnterSequence;
         private Sequence _onPointerExitSequence;
         
         public SpecialCardAnimationStrategy(Transform cardVisualTransform, CardAnimationData data, Animator animator, CardObject cardObject)
-            : base(cardVisualTransform, data, animator)
+            : base(cardVisualTransform, data, animator, cardObject)
         {
-            _cardObject = cardObject;
         }
 
         public override void OnCardSpawn()
